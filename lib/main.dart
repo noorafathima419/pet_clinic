@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pet_clinic/Admin/Admin_login.dart';
+import 'package:pet_clinic/User/User_doctordetails.dart';
+import 'package:pet_clinic/User/User_homepage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,10 +14,14 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return
-    MaterialApp(debugShowCheckedModeBanner: false,
-    title: 'Flutter Demo',
-      theme: ThemeData(
+    return ScreenUtilInit(
+        designSize: Size(412, 892),
+        splitScreenMode: true,
+        minTextAdapt: true,
+        builder: (context, child) =>
+            MaterialApp(debugShowCheckedModeBanner: false,
+              title: 'Flutter Demo',
+        theme: ThemeData(
         // This is the theme of your application.
         //
         // TRY THIS: Try running your application with "flutter run". You'll see
@@ -33,8 +40,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const AdminLogin(),
-     );
+      home: const UserDoctordetails(),
+      ) );
   }
 }
 
