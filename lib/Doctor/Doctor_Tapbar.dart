@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'Add_vaccination.dart';
-import 'Dctoruser_details.dart';
+import 'package:pet_clinic/Doctor/Add_Vaccination.dart';
+import 'package:pet_clinic/Doctor/Doctor_userDetails.dart';
 
 class DoctorTapbar extends StatefulWidget {
   const DoctorTapbar({super.key});
@@ -66,7 +65,7 @@ class _DoctorTapbarState extends State<DoctorTapbar> {
           ),
         ),body: TabBarView(
         children: [
-          DctoruserDetails(), // Call the first class
+          DoctorUserdetails(), // Call the first class
           AddVaccination(),
 
           // Call the second class
