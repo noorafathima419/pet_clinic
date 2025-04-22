@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,12 +14,24 @@ class UserNotofication extends StatefulWidget {
 class _UserNotoficationState extends State<UserNotofication> {
   @override
   Widget build(BuildContext context) {
+    return  FutureBuilder(future: FirebaseFirestore.instance.collection("admin_notification").doc().get(),
+    builder: (context, snapshot) {
+    if (snapshot.connectionState == ConnectionState.waiting) {
+    return const Center(child: CircularProgressIndicator());
+    }
+    if (snapshot.hasError) {
+    return Center(child: Text("user found"));
+    }
+    if (!snapshot.hasData || snapshot.data == null) {
+    return Center(child: Text("no user data found"));
+    }
+    final user = snapshot.data!.data() as Map<String, dynamic>;
     return Scaffold(
       backgroundColor: Color(0xffFFFFFF),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
         child: ListView.builder(
-          itemCount: 2,
+          itemCount: user.length,
           itemBuilder: (context, index) {
             return Padding(
               padding: EdgeInsets.only(bottom: 10.h),
@@ -41,7 +54,7 @@ class _UserNotoficationState extends State<UserNotofication> {
                     subtitle: Padding(
                       padding:  EdgeInsets.only(top: 100.h),
                       child: Text(
-                        "10:00 am",
+                        user[index]["Date"],
                         style: GoogleFonts.poppins(
                           fontSize: 14.sp,
                           color: Colors.grey[700],
@@ -49,7 +62,7 @@ class _UserNotoficationState extends State<UserNotofication> {
                       ),
                     ),
                     trailing: Text(
-                      "10.11.2024",
+                      user[index]["Time"],
                       style: GoogleFonts.poppins(
                         fontSize: 14.sp,
                         color: Colors.grey[700],
@@ -62,6 +75,8 @@ class _UserNotoficationState extends State<UserNotofication> {
           },
         ),
       ),
+    );
+    }
     );
   }
 }

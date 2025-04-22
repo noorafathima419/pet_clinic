@@ -23,7 +23,7 @@ class _DoctorLoginState extends State<DoctorLogin> {
 
   void doctor_login() async {
     final login = await FirebaseFirestore.instance
-        .collection("doctor_register")
+        .collection("Doctor_Register")
         .where("email", isEqualTo: Emailctrl.text)
         .where("password", isEqualTo: passowrdctrl.text)
         .get();
