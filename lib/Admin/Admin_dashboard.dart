@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pet_clinic/Admin/Admin_add_grooming.dart';
+import 'package:pet_clinic/Admin/Admin_user.dart';
 
 class AdminDashboard extends StatefulWidget {
   const AdminDashboard({super.key});
@@ -40,44 +41,50 @@ class _AdminDashboardState extends State<AdminDashboard> {
             children: [
               Padding(
                 padding: EdgeInsets.only(left: 20.w, top: 70.h),
-                child: Container(
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(top: 40.h, left: 70.w),
-                            child: Text(
-                              "40",
-                              style: GoogleFonts.poppins(
-                                  color: Colors.black,
-                                  fontSize: 40.sp,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          )
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(left: 50.w),
-                            child: Text(
-                              "Users",
-                              style: GoogleFonts.poppins(
-                                  color: Colors.black,
-                                  fontSize: 25.sp,
-                                  fontWeight: FontWeight.w300),
-                            ),
-                          )
-                        ],
-                      )
-                    ],
+                child: GestureDetector(onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return AdminUser();
+                  },));
+                },
+                  child: Container(
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(top: 40.h, left: 70.w),
+                              child: Text(
+                                "40",
+                                style: GoogleFonts.poppins(
+                                    color: Colors.black,
+                                    fontSize: 40.sp,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(left: 50.w),
+                              child: Text(
+                                "Users",
+                                style: GoogleFonts.poppins(
+                                    color: Colors.black,
+                                    fontSize: 25.sp,
+                                    fontWeight: FontWeight.w300),
+                              ),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15.sp),
+                        border: Border.all(width: 1.sp, color: Colors.black)),
+                    height: 150.h,
+                    width: 180.w,
                   ),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15.sp),
-                      border: Border.all(width: 1.sp, color: Colors.black)),
-                  height: 150.h,
-                  width: 180.w,
                 ),
               ),
               Row(
