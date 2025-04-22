@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pet_clinic/Admin/Admin_add_grooming.dart';
 
 class AdminDashboard extends StatefulWidget {
   const AdminDashboard({super.key});
@@ -17,7 +18,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
       appBar: AppBar(
         backgroundColor: Color(0xff5CB15A),
         title: Padding(
-          padding: EdgeInsets.only(left: 130.h),
+          padding: EdgeInsets.only(left: 90.h),
           child: Text(
             "DashBoard",
             style: GoogleFonts.poppins(
@@ -131,44 +132,50 @@ class _AdminDashboardState extends State<AdminDashboard> {
             children: [
               Padding(
                 padding: EdgeInsets.only(left: 20.w, top: 30.h),
-                child: Container(
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(top: 20.h, left: 70.w),
-                            child: Text(
-                              "4",
-                              style: GoogleFonts.poppins(
-                                  color: Colors.black,
-                                  fontSize: 40,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          )
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(left: 20.w),
-                            child: Text(
-                              "Grooming",
-                              style: GoogleFonts.poppins(
-                                  color: Colors.black,
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.w300),
-                            ),
-                          )
-                        ],
-                      )
-                    ],
+                child: GestureDetector(onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return AdminAddGrooming();
+                  },));
+                },
+                  child: Container(
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(top: 20.h, left: 70.w),
+                              child: Text(
+                                "4",
+                                style: GoogleFonts.poppins(
+                                    color: Colors.black,
+                                    fontSize: 40,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(left: 20.w),
+                              child: Text(
+                                "Grooming",
+                                style: GoogleFonts.poppins(
+                                    color: Colors.black,
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.w300),
+                              ),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(width: 1, color: Colors.black)),
+                    height: 150.h,
+                    width: 180.w,
                   ),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      border: Border.all(width: 1, color: Colors.black)),
-                  height: 150.h,
-                  width: 180.w,
                 ),
               ),
               Row(

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,117 +21,137 @@ class _UserGroomingState extends State<UserGrooming> {
       ),
       body: Column(
         children: [
-          Row(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(left: 30.w, top: 30.h),
-                child: Card(
-                  elevation: 3,
-                  child: Container(
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Center(
-                              child: Padding(
-                                padding: EdgeInsets.only(left: 90.w),
-                                child: Text(
-                                  "Regular Hygine",
-                                  style: GoogleFonts.poppins(
-                                      fontSize: 20.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.indigo),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(left: 10.w, top: 10.h),
-                              child: Text("Combing & Brushing"),
-                            )
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(left: 10.w),
-                              child: Text("Nail clipping"),
-                            ), Row(
+          Expanded(
+            child: StreamBuilder(
+              stream: FirebaseFirestore.instance
+                  .collection("Add_Grooming")
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (!snapshot.hasData) {
+                  return Center(child: Text("no data found"));
+                }
+                var doct = snapshot.data!.docs;
+                return ListView.builder(
+                  itemCount: doct.length,
+                  itemBuilder: (context, index) {
+                    return Row(children: [
+                      Padding(
+                        padding: EdgeInsets.only(left: 30.w, top: 30.h),
+                        child: Card(
+                          elevation: 3,
+                          child: Container(
+                            child: Column(
                               children: [
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 90.w),
-                                  child: Container(
-                                    child: Center(
-                                      child: Text(
-                                        "select package",
-                                        style: GoogleFonts
-                                            .poppins(
-                                            color: Colors
-                                                .white),
+                                Row(
+                                  children: [
+                                    Center(
+                                      child: Padding(
+                                        padding: EdgeInsets.only(left: 90.w),
+                                        child:
+                                       Text(doct[index]["package"],
+                                          style: GoogleFonts.poppins(
+                                              fontSize: 20.sp,
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.indigo),
+                                        ),
                                       ),
+                                    )
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 10.w, top: 10.h),
+                                      child:  Text(doct[index]["service"],
+                                    )
+                    )  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(left: 10.w),
+                                      child:Text(doct[index]["service1"],)
                                     ),
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                        BorderRadius
-                                            .circular(
-                                            15.r),
-                                        color: Color(
-                                            0xffCD4949)),
-                                    width: 150.w,
-                                    height: 25,
-                                  ),
-                                )
+                                    Row(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 90.w),
+                                          child: Container(
+                                            child: Center(
+                                              child: Text(
+                                                "select package",
+                                                style: GoogleFonts.poppins(
+                                                    color: Colors.white),
+                                              ),
+                                            ),
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(15.r),
+                                                color: Color(0xffCD4949)),
+                                            width: 150.w,
+                                            height: 25,
+                                          ),
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(left: 10.w),
+                                      child:  Text(doct[index]["service2"],
+                                    )
+                                    )],
+                                ),
+                                Row(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(left: 10.w),
+                                      child: Text(doct[index]["service3"],
+                                    )
+                                    )],
+                                ),
+                                Row(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(left: 10.w),
+                                      child: Text(doct[index]["service4"],
+                                    )
+                    ) ],
+                                ),
+                                Row(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(left: 10.w),
+                                      child:  Text(doct[index]["service5"],
+                                    ))
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(left: 10.w),
+                                      child:  Text(doct[index]["service6"],
+                                    ))
+                                  ],
+                                ),
                               ],
-                            )
-                          ],
-                        ), Row(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(left: 10.w),
-                              child: Text("Ear& Eye Cleaning"),
-                            )
-                          ],
-                        ), Row(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(left: 10.w),
-                              child: Text("TeathCleaning"),
-                            )
-                          ],
-                        ), Row(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(left: 10.w),
-                              child: Text("Mouth Spray"),
-                            )
-                          ],
-                        ), Row(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(left: 10.w),
-                              child: Text("Sanitary Clipping"),
-                            )
-                          ],
-                        ), Row(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(left: 10.w),
-                              child: Text("Paw massage"),
-                            )
-                          ],
+                            ),
+                            height: 300.h,
+                            width: 350.4,
+                          ),
                         ),
-                      ],
-                    ),
-                    height: 300.h,
-                    width: 350.4,
-                  ),
-                ),
-              )
-            ],
+                      )
+                    ]);
+                  },
+                );
+              },
+            ),
           )
         ],
       ),

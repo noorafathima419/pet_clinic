@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pet_clinic/User/user_login.dart';
 
 class UserSignup extends StatefulWidget {
   const UserSignup({super.key});
@@ -11,6 +13,32 @@ class UserSignup extends StatefulWidget {
 }
 
 class _UserSignupState extends State<UserSignup> {
+  final form_key = GlobalKey<FormState>();
+  TextEditingController namectrl = TextEditingController();
+  TextEditingController numberctrl = TextEditingController();
+  TextEditingController emailctrl = TextEditingController();
+  TextEditingController passwordctrl = TextEditingController();
+  TextEditingController locationctrl = TextEditingController();
+
+  Future<void> user() async {
+    FirebaseFirestore.instance.collection("user_register").add({
+      "name": namectrl.text,
+      "number": numberctrl.text,
+      "email": emailctrl.text,
+      "password": passwordctrl.text,
+      "location": locationctrl.text,
+      "Status": 0,
+      "profile_path":
+      "https://images.pexels.com/photos/213780/pexels-photo-213780.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+    });
+    print("Success");
+    Navigator.push(context, MaterialPageRoute(
+      builder: (context) {
+        return UserLogin();
+      },
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,6 +90,7 @@ class _UserSignupState extends State<UserSignup> {
                             padding:
                                 EdgeInsets.only(top: 10.h, left: 10.w, right: 10.w),
                             child: TextFormField(
+                                controller: namectrl,
                                 validator: (value) {
                                   if (value!.isEmpty) {
                                     return "Empty name";
@@ -110,7 +139,7 @@ class _UserSignupState extends State<UserSignup> {
                               child: Padding(
                             padding:
                                 EdgeInsets.only(top: 10.h, left: 10.w, right: 10.w),
-                            child: TextFormField(
+                            child: TextFormField(controller: emailctrl,
                                 validator: (value) {
                                   if (value!.isEmpty) {
                                     return "Empty mail";
@@ -159,7 +188,7 @@ class _UserSignupState extends State<UserSignup> {
                               child: Padding(
                             padding:
                                 EdgeInsets.only(top: 10.r, left: 10.w, right: 10.w),
-                            child: TextFormField(
+                            child: TextFormField(controller: numberctrl,
                                 validator: (value) {
                                   if (value!.isEmpty) {
                                     return "Empty number";
@@ -208,7 +237,7 @@ class _UserSignupState extends State<UserSignup> {
                               child: Padding(
                             padding:
                                 EdgeInsets.only(top: 10.h, left: 10.w, right: 10.r),
-                            child: TextFormField(
+                            child: TextFormField(controller: locationctrl,
                                 validator: (value) {
                                   if (value!.isEmpty) {
                                     return "Empty location";
@@ -257,7 +286,7 @@ class _UserSignupState extends State<UserSignup> {
                               child: Padding(
                             padding:
                                 EdgeInsets.only(top: 10.h, left: 10.w, right: 10.w),
-                            child: TextFormField(
+                            child: TextFormField(controller: passwordctrl,
                                 validator: (value) {
                                   if (value!.isEmpty) {
                                     return "Empty password";
@@ -296,7 +325,7 @@ class _UserSignupState extends State<UserSignup> {
                                 padding: EdgeInsets.only(left: 80.w, top: 30.h),
                                 child: InkWell(
                                   onTap: () {
-                                    // user_signup();
+                                    user();
                                   },
                                   child: Container(
                                     child: Center(
@@ -348,11 +377,11 @@ class _UserSignupState extends State<UserSignup> {
                           GoogleFonts.rubik(fontSize: 16.sp, color: Colors.black),
                     ),
                   ),
-                  Text(
-                    "Login",
-                    style: GoogleFonts.poppins(
-                        color: Colors.green, fontWeight: FontWeight.bold),
-                  )
+                 TextButton(onPressed: () {
+                   Navigator.push(context, MaterialPageRoute(builder: (context) {
+                     return UserLogin();
+                   },));
+                 }, child: Text("Login"))
                 ],
               )
             ],

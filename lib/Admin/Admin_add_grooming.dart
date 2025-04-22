@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pet_clinic/Admin/Admin_dashboard.dart';
 
 class AdminAddGrooming extends StatefulWidget {
   const AdminAddGrooming({super.key});
@@ -11,199 +13,238 @@ class AdminAddGrooming extends StatefulWidget {
 }
 
 class _AdminAddGroomingState extends State<AdminAddGrooming> {
+  final form_key = GlobalKey<FormState>();
+  TextEditingController packagectrl = TextEditingController();
+  TextEditingController servicectrl = TextEditingController();
+  TextEditingController service1ctrl = TextEditingController();
+  TextEditingController service2ctrl = TextEditingController();
+  TextEditingController service3ctrl = TextEditingController();
+  TextEditingController service4ctrl = TextEditingController();
+  TextEditingController service5ctrl = TextEditingController();
+  TextEditingController service6ctrl = TextEditingController();
+  TextEditingController service7ctrl = TextEditingController();
+  TextEditingController service8ctrl = TextEditingController();
+
+  Future<void> user() async {
+    FirebaseFirestore.instance.collection("Add_Grooming").add({
+      "package": packagectrl.text,
+      "service": servicectrl.text,
+      "service1": service1ctrl.text,
+      "service2": service2ctrl.text,
+      "service3": service3ctrl.text,
+      "service4": service4ctrl.text,
+      "service5": service5ctrl.text,
+      "service6": service6ctrl.text,
+      "service7": service7ctrl.text,
+      "service8": service8ctrl.text,
+      "Status": 0,
+      "profile_path":
+      "https://images.pexels.com/photos/213780/pexels-photo-213780.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+    });
+    print("Success");
+    Navigator.push(context, MaterialPageRoute(
+      builder: (context) {
+        return AdminDashboard();
+      },
+    ));
+  }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(
-      backgroundColor: Color(0xff5CB15A),
-      title: Padding(
-        padding: EdgeInsets.only(left: 150.w),
-        child: Text(
-          "SERVICES",
-          style: GoogleFonts.poppins(
-              fontWeight: FontWeight.w500, fontSize: 20.sp),
+    return Scaffold(
+      appBar: AppBar(
+        title: Center(
+          child: Text(
+            "Service",
+            style: TextStyle(color: Colors.black),
+          ),
         ),
+        backgroundColor: Color(0xff5CB15A),
       ),
-    ),
-        body: Column(children: [
-          Row(children: [
-            Padding(
-                padding: EdgeInsets.only(left: 20.w, top: 30.h),
-                child: Card(
-                  child: Container(
-                      child: ListView(children: [
-                        Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(left: 30.w, right: 40.r,top: 30.h),
-                              child: Container(
-                                // width: 300.w,
-                                child: TextFormField(
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderSide:
-                                        BorderSide(color: Colors.white),
-                                        borderRadius:
-                                        BorderRadius.circular(10.r)),
-                                    prefixIconColor: Colors.white,
-                                    suffixIconColor: Colors.pink,
-                                    hintText: "package name",
-                                    fillColor: Colors.white,
-                                    filled: true,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 30.w, right: 1.w),
-                              child: Container(
-                                // width: 300.w,
-                                child: TextFormField(
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderSide:
-                                        BorderSide(color: Colors.white),
-                                        borderRadius:
-                                        BorderRadius.circular(10.r)),
-                                    prefixIconColor: Colors.white,
-                                    suffixIconColor: Colors.pink,
-                                    hintText: "Service name",
-                                    fillColor: Colors.white,
-                                    filled: true,
-                                  ),
-                                ),
-                              ),
-                            ),
-
-                            Padding(
-                              padding: EdgeInsets.only(left: 30.w, right: 40.w),
-                              child: Container(
-                                // width: 300.w,
-                                child: TextFormField(
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderSide:
-                                        BorderSide(color: Colors.white),
-                                        borderRadius:
-                                        BorderRadius.circular(10.r)),
-                                    prefixIconColor: Colors.white,
-                                    suffixIconColor: Colors.pink,
-                                    hintText: "mail",
-                                    fillColor: Colors.white,
-                                    filled: true,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 30.w, right: 40.w),
-                              child: Container(
-                                // width: 300.w,
-                                child: TextFormField(
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderSide:
-                                        BorderSide(color: Colors.white),
-                                        borderRadius:
-                                        BorderRadius.circular(10.r)),
-                                    prefixIconColor: Colors.white,
-                                    suffixIconColor: Colors.pink,
-                                    hintText: "place",
-                                    fillColor: Colors.white,
-                                    filled: true,
-                                  ),
-                                ),
-                              ),
-                            ),
-
-                            Padding(
-                              padding: EdgeInsets.only(left: 30.w, right: 40.w),
-                              child: Container(
-                                // width: 300.w,
-                                child: TextFormField(
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderSide:
-                                        BorderSide(color: Colors.white),
-                                        borderRadius:
-                                        BorderRadius.circular(10.r)),
-                                    prefixIconColor: Colors.white,
-                                    suffixIconColor: Colors.pink,
-                                    hintText: "password",
-                                    fillColor: Colors.white,
-                                    filled: true,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Row(
-                              children: [
-                                Padding(
-                                  padding:
-                                  EdgeInsets.only(left: 30.w, top: 30.h),
-                                  child: Container(
-                                    child: Padding(
-                                      padding:  EdgeInsets.only(
-                                          top: 5.h, left: 20.w),
-                                      child: Text(
-                                        "Accept",
-                                        style: GoogleFonts.poppins(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 20.sp),
-                                      ),
-                                    ),
-                                    height: 40.h,
-                                    width: 130.w,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15.r),
-                                        color: Colors.lightGreen),
-                                  ),
-                                ),
-                                Padding(
-                                  padding:
-                                  EdgeInsets.only(left: 10.w, top: 30.h),
-                                  child: Container(
-                                    child: Padding(
-                                      padding:  EdgeInsets.only(
-                                          top: 5.h, left: 20.w),
-                                      child: Text(
-                                        "Reject",
-                                        style: GoogleFonts.poppins(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 20.sp),
-                                      ),
-                                    ),
-                                    height: 40.h,
-                                    width: 130.w,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15.r),
-                                        color: Colors.red),
-                                  ),
-                                )
-                              ],
-                            )
-                          ],
+      body: ListView(children: [
+        Column(
+          children: [
+            SizedBox(
+              height: 20.h,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 348.w,
+                  height: 790.h,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color(0xffE4DADA),
+                  ),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding:
+                            EdgeInsets.only(top: 20.h, left: 10.w, right: 10.r),
+                        child: TextFormField(controller: packagectrl,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              prefixIconColor: Colors.white,
+                              suffixIconColor: Colors.white,
+                              fillColor: Colors.white,
+                              hintText: "Package name",
+                              filled: true,
+                              disabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.sp))),
                         ),
-                      ]),
-                      height: 700.h,
-                      width: 350.w,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.r),
-                        color: Color(0xffF0E4E4),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black
-                                .withOpacity(0.2), // Shadow color with opacity
-                            spreadRadius: 0, // How much the shadow spreads
-                            blurRadius: 4, // Softness of the shadow
-                            offset:
-                            Offset(0, 4), // X and Y offset of the shadow
-                          ),
+                      ),
+                      Padding(
+                        padding:
+                            EdgeInsets.only(top: 20.h, left: 10.w, right: 10.r),
+                        child: TextFormField(controller: servicectrl,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              prefixIconColor: Colors.white,
+                              suffixIconColor: Colors.white,
+                              fillColor: Colors.white,
+                              hintText: "service name",
+                              filled: true,
+                              disabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(1))),
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            EdgeInsets.only(top: 20.h, left: 10.w, right: 10.r),
+                        child: TextFormField(controller:service1ctrl ,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              prefixIconColor: Colors.white,
+                              suffixIconColor: Colors.white,
+                              fillColor: Colors.white,
+                              hintText: "service name",
+                              filled: true,
+                              disabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(1))),
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            EdgeInsets.only(top: 20.h, left: 10.w, right: 10.r),
+                        child: TextFormField(controller: service2ctrl,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              prefixIconColor: Colors.white,
+                              suffixIconColor: Colors.white,
+                              fillColor: Colors.white,
+                              hintText: "service name",
+                              filled: true,
+                              disabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(1))),
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            EdgeInsets.only(top: 20.h, left: 10.w, right: 10.r),
+                        child: TextFormField(controller: service3ctrl,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              prefixIconColor: Colors.white,
+                              suffixIconColor: Colors.white,
+                              fillColor: Colors.white,
+                              hintText: "service name",
+                              filled: true,
+                              disabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(1))),
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            EdgeInsets.only(top: 20.h, left: 10.w, right: 10.r),
+                        child: TextFormField(controller: service4ctrl,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              prefixIconColor: Colors.white,
+                              suffixIconColor: Colors.white,
+                              fillColor: Colors.white,
+                              hintText: "service name",
+                              filled: true,
+                              disabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(1))),
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            EdgeInsets.only(top: 20.h, left: 10.w, right: 10.r),
+                        child: TextFormField(controller: service5ctrl,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              prefixIconColor: Colors.white,
+                              suffixIconColor: Colors.white,
+                              fillColor: Colors.white,
+                              hintText: "service name",
+                              filled: true,
+                              disabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(1))),
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            EdgeInsets.only(top: 20.h, left: 10.w, right: 10.r),
+                        child: TextFormField(controller: service6ctrl,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              prefixIconColor: Colors.white,
+                              suffixIconColor: Colors.white,
+                              fillColor: Colors.white,
+                              hintText: "service name",
+                              filled: true,
+                              disabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(1))),
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            EdgeInsets.only(top: 20.h, left: 10.w, right: 10.r),
+                        child: TextFormField(controller: service7ctrl,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              prefixIconColor: Colors.white,
+                              suffixIconColor: Colors.white,
+                              fillColor: Colors.white,
+                              hintText: "service name",
+                              filled: true,
+                              disabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(1))),
+                        ),
+                      ), Row(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(left: 80.w, top: 30.h),
+                            child: InkWell(
+                              onTap: () {
+                                user();
+                              },
+                              child: Container(
+                                child: Center(
+                                    child: Text(
+                                      "ADD",
+                                      style: GoogleFonts.hind(fontSize: 16.sp),
+                                    )),
+                                width: 166.w,
+                                height: 40.h,
+                                decoration: BoxDecoration(
+                                    color: Color(0xff5CB15A),
+                                    borderRadius:
+                                    BorderRadius.circular(10.r)),
+                              ),
+                            ),
+                          )
                         ],
-                      )),
-                )),
-          ]),
-        ]));
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ],
+        ),
+      ]),
+    );
   }
 }

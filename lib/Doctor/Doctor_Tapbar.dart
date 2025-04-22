@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:pet_clinic/Doctor/Add_Vaccination.dart';
+import 'package:pet_clinic/Doctor/View_Appoinment_details.dart';
 import 'package:pet_clinic/Doctor/Doctor_userDetails.dart';
 
 class DoctorTapbar extends StatefulWidget {
