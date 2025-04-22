@@ -19,7 +19,7 @@ class _DoctorLoginState extends State<DoctorLogin> {
   final form_key = GlobalKey<FormState>();
   var passowrdctrl = TextEditingController();
   var Emailctrl = TextEditingController();
-  String id="";
+  String id = "";
 
   void doctor_login() async {
     final login = await FirebaseFirestore.instance
@@ -47,13 +47,16 @@ class _DoctorLoginState extends State<DoctorLogin> {
       );
     }
   }
+
   @override
   Widget build(BuildContext context) {
-    return  Scaffold( backgroundColor: Colors.white,
+    return Scaffold(
+        backgroundColor: Colors.white,
         body: ListView(children: [
-           Form(key: form_key,
-             child: Expanded(
-               child: Container(
+          Form(
+            key: form_key,
+            child: Expanded(
+              child: Container(
                 child: Column(children: [
                   Row(
                     children: [
@@ -68,105 +71,116 @@ class _DoctorLoginState extends State<DoctorLogin> {
                                         padding: EdgeInsets.only(left: 110.w),
                                         child: Text(
                                           "Login",
-                                          style: GoogleFonts.inter(fontSize: 36.sp),
+                                          style: GoogleFonts.inter(
+                                              fontSize: 36.sp),
                                         ))
                                   ],
                                 ),
                                 Center(
                                     child: Padding(
-                                      padding: EdgeInsets.only(
-                                          top: 70.h, left: 10.w, right: 10.r),
-                                      child: TextFormField(
-                                          controller: Emailctrl,
-                                          validator: (value) {
-                                            if (value!.isEmpty) {
-                                              return "Empty password";
-                                            }
-                                            return null;
-                                          },
-                                          decoration: InputDecoration(
-                                              hintText: 'Enter your email',
-                                              hintStyle: GoogleFonts.hind(
-                                                  fontSize: 14.sp, color: Colors.grey),
-                                              prefixIcon: Padding(
-                                                  padding: EdgeInsets.all(12.0),
-                                                  child: Icon(
-                                                    Icons.alternate_email_outlined,
-                                                    color: Colors.black,
-                                                  )),
-                                              border: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(12),
-                                                borderSide:
+                                  padding: EdgeInsets.only(
+                                      top: 70.h, left: 10.w, right: 10.r),
+                                  child: TextFormField(
+                                      controller: Emailctrl,
+                                      validator: (value) {
+                                        if (value!.isEmpty) {
+                                          return "Empty password";
+                                        }
+                                        return null;
+                                      },
+                                      decoration: InputDecoration(
+                                          hintText: 'Enter your email',
+                                          hintStyle: GoogleFonts.hind(
+                                              fontSize: 14.sp,
+                                              color: Colors.grey),
+                                          prefixIcon: Padding(
+                                              padding: EdgeInsets.all(12.0),
+                                              child: Icon(
+                                                Icons.alternate_email_outlined,
+                                                color: Colors.black,
+                                              )),
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            borderSide:
                                                 BorderSide(color: Colors.black),
-                                              ),
-                                              enabledBorder: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(12),
-                                                borderSide:
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            borderSide:
                                                 BorderSide(color: Colors.black),
-                                              ),
-                                              focusedBorder: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(12),
-                                                borderSide: BorderSide(
-                                                    color: Colors.black, width: 2),
-                                              ))),
-                                    )),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            borderSide: BorderSide(
+                                                color: Colors.black, width: 2),
+                                          ))),
+                                )),
                                 Center(
                                     child: Padding(
-                                      padding: EdgeInsets.only(
-                                          top: 70.h, left: 10.w, right: 10.r),
-                                      child: TextFormField(
-                                          controller: passowrdctrl,
-                                          validator: (value) {
-                                            if (value!.isEmpty) {
-                                              return "Empty password";
-                                            }
-                                            return null;
-                                          },
-                                          decoration: InputDecoration(
-                                              hintText: '*****',
-                                              hintStyle: GoogleFonts.hind(
-                                                  fontSize: 14.sp, color: Colors.grey),
-                                              // prefixIcon: Padding(
-                                              //     padding: EdgeInsets.all(12.0),
-                                              //     child: SvgPicture.Asset("")()),
-                                              border: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(12),
-                                                borderSide:
+                                  padding: EdgeInsets.only(
+                                      top: 70.h, left: 10.w, right: 10.r),
+                                  child: TextFormField(controller: passowrdctrl,
+                                      validator: (value) {
+                                        if (value!.isEmpty) {
+                                          return "Empty password";
+                                        }
+                                        return null;
+                                      },
+                                      decoration: InputDecoration(
+                                          hintText: '*****',
+                                          hintStyle: GoogleFonts.hind(
+                                              fontSize: 14.sp,
+                                              color: Colors.grey),
+                                          // prefixIcon: Padding(
+                                          //     padding: EdgeInsets.all(12.0),
+                                          //     child: SvgPicture.Asset("")()),
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            borderSide:
                                                 BorderSide(color: Colors.black),
-                                              ),
-                                              enabledBorder: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(12),
-                                                borderSide:
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            borderSide:
                                                 BorderSide(color: Colors.black),
-                                              ),
-                                              focusedBorder: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(12),
-                                                borderSide: BorderSide(
-                                                    color: Colors.black, width: 2),
-                                              ))),
-                                    )),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            borderSide: BorderSide(
+                                                color: Colors.black, width: 2),
+                                          ))),
+                                )),
                                 Row(
                                   children: [
                                     Padding(
-                                      padding: EdgeInsets.only(left: 80.w, top: 50.h),
+                                      padding: EdgeInsets.only(
+                                          left: 80.w, top: 50.h),
                                       child: InkWell(
                                         onTap: () {
-                                          if (form_key.currentState!.validate()) {
+                                          if (form_key.currentState!
+                                              .validate()) {
                                             doctor_login();
                                           }
                                         },
                                         child: Container(
                                           child: Center(
                                               child: Text(
-                                                "LOGIN",
-                                                style: GoogleFonts.hind(fontSize: 16.sp),
-                                              )),
+                                            "LOGIN",
+                                            style: GoogleFonts.hind(
+                                                fontSize: 16.sp),
+                                          )),
                                           width: 166.w,
                                           height: 40.h,
                                           decoration: BoxDecoration(
                                               color: Color(0xff5CB15A),
                                               borderRadius:
-                                              BorderRadius.circular(10.sp)),
+                                                  BorderRadius.circular(10.sp)),
                                         ),
                                       ),
                                     )
@@ -181,12 +195,13 @@ class _DoctorLoginState extends State<DoctorLogin> {
                               color: Color(0xffF0E4E4),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black
-                                      .withOpacity(0.2), // Shadow color with opacity
-                                  spreadRadius: 0, // How much the shadow spreads
+                                  color: Colors.black.withOpacity(
+                                      0.2), // Shadow color with opacity
+                                  spreadRadius:
+                                      0, // How much the shadow spreads
                                   blurRadius: 4, // Softness of the shadow
-                                  offset:
-                                  Offset(0, 4), // X and Y offset of the shadow
+                                  offset: Offset(
+                                      0, 4), // X and Y offset of the shadow
                                 ),
                               ],
                             )),
@@ -202,8 +217,8 @@ class _DoctorLoginState extends State<DoctorLogin> {
                         padding: EdgeInsets.only(left: 90.w),
                         child: Text(
                           "Do you have account?",
-                          style:
-                          GoogleFonts.hind(fontSize: 18.sp, color: Colors.black),
+                          style: GoogleFonts.hind(
+                              fontSize: 18.sp, color: Colors.black),
                         ),
                       ),
                       TextButton(
@@ -216,15 +231,15 @@ class _DoctorLoginState extends State<DoctorLogin> {
                           },
                           child: Text(
                             "Sign up",
-                            style:
-                            GoogleFonts.inter(color: Colors.green, fontSize: 16.sp),
+                            style: GoogleFonts.inter(
+                                color: Colors.green, fontSize: 16.sp),
                           ))
                     ],
                   )
                 ]),
-                         ),
-             ),
-           ),
+              ),
+            ),
+          ),
         ]));
   }
 }

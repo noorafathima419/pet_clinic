@@ -16,24 +16,21 @@ class _DoctorSignupState extends State<DoctorSignup> {
   final form_key = GlobalKey<FormState>();
   TextEditingController namectrl = TextEditingController();
   TextEditingController numberctrl = TextEditingController();
-  TextEditingController experiencectrl = TextEditingController();
-  TextEditingController qualificationctrl = TextEditingController();
+  TextEditingController experiencectrl =TextEditingController();
+  TextEditingController qualification = TextEditingController();
   TextEditingController emailctrl = TextEditingController();
   TextEditingController passwordctrl = TextEditingController();
 
 
-
   Future<void> doctor() async {
-    if(!form_key.currentState!.validate()){
-      return;
-    }
-    FirebaseFirestore.instance.collection("doctor_register").add({
+    FirebaseFirestore.instance.collection("Doctor_Register").add({
       "name": namectrl.text,
       "number": numberctrl.text,
-      "email": emailctrl.text,
       "experience":experiencectrl,
-      "qualification":qualificationctrl,
+      "qualification":qualification,
+      "email": emailctrl.text,
       "password": passwordctrl.text,
+
       "Status": 0,
       "profile_path":
       "https://images.pexels.com/photos/213780/pexels-photo-213780.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
@@ -45,6 +42,7 @@ class _DoctorSignupState extends State<DoctorSignup> {
       },
     ));
   }
+
   @override
   Widget build(BuildContext context) {
     return  Scaffold(appBar: AppBar(
@@ -223,7 +221,7 @@ class _DoctorSignupState extends State<DoctorSignup> {
                               child: Padding(
                                 padding:
                                 EdgeInsets.only(top: 10.h, left: 10.w, right: 10.r),
-                                child: TextFormField(controller:qualificationctrl ,
+                                child: TextFormField(controller: qualification,
                                     validator: (value) {
                                       if (value!.isEmpty) {
                                         return "Empty qualification";
@@ -265,7 +263,7 @@ class _DoctorSignupState extends State<DoctorSignup> {
                               child: Padding(
                                 padding:
                                 EdgeInsets.only(top: 10.h, left: 10.w, right: 10.r),
-                                child: TextFormField(controller:emailctrl ,
+                                child: TextFormField(controller: emailctrl,
                                     validator: (value) {
                                       if (value!.isEmpty) {
                                         return "Empty qualification";
