@@ -27,9 +27,9 @@ class _LoginPagesplashState extends State<LoginPagesplash> {
                 child: Container(
                   width: 160.w,
                   height: 160.h,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage("Assets/tow 1.png"))),
+                  // decoration: BoxDecoration(
+                  //     image: DecorationImage(
+                  //         image: AssetImage("Assets/tow 1.png"))),
                 ),
               )
             ],

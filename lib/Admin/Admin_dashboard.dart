@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pet_clinic/Admin/Admin_add_grooming.dart';
+import 'package:pet_clinic/Admin/Admin_notification.dart';
 import 'package:pet_clinic/Admin/Admin_user.dart';
 
 class AdminDashboard extends StatefulWidget {
@@ -237,44 +238,50 @@ class _AdminDashboardState extends State<AdminDashboard> {
             children: [
               Padding(
                 padding: EdgeInsets.only(left: 20.w, top: 20.h),
-                child: Container(
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(top: 20.h, left: 70.w),
-                            child: Text(
-                              "10",
-                              style: GoogleFonts.poppins(
-                                  color: Colors.black,
-                                  fontSize: 40.sp,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          )
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(left: 10.w),
-                            child: Text(
-                              "Notifications",
-                              style: GoogleFonts.poppins(
-                                  color: Colors.black,
-                                  fontSize: 20.sp,
-                                  fontWeight: FontWeight.w300),
-                            ),
-                          )
-                        ],
-                      )
-                    ],
+                child: GestureDetector(onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return AdminNotification();
+                  },));
+                },
+                  child: Container(
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(top: 20.h, left: 70.w),
+                              child: Text(
+                                "10",
+                                style: GoogleFonts.poppins(
+                                    color: Colors.black,
+                                    fontSize: 40.sp,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(left: 10.w),
+                              child: Text(
+                                "Notifications",
+                                style: GoogleFonts.poppins(
+                                    color: Colors.black,
+                                    fontSize: 20.sp,
+                                    fontWeight: FontWeight.w300),
+                              ),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(width: 1, color: Colors.black)),
+                    height: 150.h,
+                    width: 180.w,
                   ),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      border: Border.all(width: 1, color: Colors.black)),
-                  height: 150.h,
-                  width: 180.w,
                 ),
               ),
               Row(
@@ -300,7 +307,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                               Padding(
                                 padding: const EdgeInsets.only(left: 50),
                                 child: Text(
-                                  "LOg out",
+                                  "Log out",
                                   style: GoogleFonts.poppins(
                                       color: Colors.black,
                                       fontSize: 25,
