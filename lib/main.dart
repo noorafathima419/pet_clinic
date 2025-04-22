@@ -15,6 +15,7 @@ import 'package:pet_clinic/Doctor/Doctor_Tapbar.dart';
 import 'package:pet_clinic/Doctor/Doctor_notification.dart';
 import 'package:pet_clinic/Doctor/Doctor_signup.dart';
 import 'package:pet_clinic/Doctor/Doctor_userDetails.dart';
+import 'package:pet_clinic/Splash_Screen/Logo_splash.dart';
 import 'package:pet_clinic/User/Pet_profilepage.dart';
 import 'package:pet_clinic/User/User_Addvaccination.dart';
 import 'package:pet_clinic/User/User_Grooming.dart';
@@ -68,7 +69,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
         ),
-      home:  AdminLogin(),
+      home:  LogoSplash(),
       ) );
   }
 }

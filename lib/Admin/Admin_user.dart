@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pet_clinic/Admin/Admin_dashboard.dart';
 
 class AdminUser extends StatefulWidget {
   const AdminUser({super.key});
@@ -19,7 +20,11 @@ class _AdminUserState extends State<AdminUser> {
         backgroundColor: Colors.green,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return AdminDashboard();
+            },));
+          },
         ),
         title: Padding(
           padding: EdgeInsets.only(left: 90.w),
