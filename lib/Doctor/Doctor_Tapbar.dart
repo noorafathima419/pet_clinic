@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pet_clinic/Doctor/Doctor_notification.dart';
 import 'package:pet_clinic/Doctor/View_Appoinment_details.dart';
 import 'package:pet_clinic/Doctor/Doctor_userDetails.dart';
 
@@ -22,7 +23,12 @@ class _DoctorTapbarState extends State<DoctorTapbar> {
             icon: Icon(Icons.arrow_back, color: Colors.black),
             onPressed: () {},
           ),
-          actions: [Icon(Icons.notifications)],
+          actions: [IconButton(onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return DoctorNotification();
+            },));
+          }, icon: Icon(Icons.notifications))
+          ],
           title: Padding(
             padding: EdgeInsets.only(left: 60.w),
             child:
