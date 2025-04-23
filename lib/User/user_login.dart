@@ -36,7 +36,7 @@ class _UserLoginState extends State<UserLogin> {
       login_data.setString("login_id", id);
       Navigator.push(context, MaterialPageRoute(
         builder: (context) {
-          return NavigationBarMechanic();
+          return NavigationBarUser();
         },
       ));
     } else {

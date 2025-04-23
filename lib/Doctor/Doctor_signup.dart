@@ -26,8 +26,8 @@ class _DoctorSignupState extends State<DoctorSignup> {
     FirebaseFirestore.instance.collection("Doctor_Register").add({
       "name": namectrl.text,
       "number": numberctrl.text,
-      "experience":experiencectrl,
-      "qualification":qualification,
+      "experience":experiencectrl.text,
+      "qualification":qualification.text,
       "email": emailctrl.text,
       "password": passwordctrl.text,
 

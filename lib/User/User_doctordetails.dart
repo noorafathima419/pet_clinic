@@ -37,69 +37,82 @@ class _UserDoctordetailsState extends State<UserDoctordetails> {
             ],
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: 4,
-              itemBuilder: (context, index) {
-                return Card(
-                  elevation: 3,
-                  margin: const EdgeInsets.symmetric(vertical: 10),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)),
-                  child: Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: Color(0xffCF6A6AF0E4E4),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Row(
-                      children: [
-                        Container(
-                          height: 50,
-                          width: 50,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.rectangle,
-                            color: Colors.grey[400],
+            child: StreamBuilder( stream: FirebaseFirestore.instance
+        .collection("Doctor_Register")
+        .snapshots(),
+    builder: (context, snapshot) {
+    if (snapshot.connectionState == ConnectionState.waiting) {
+    return const Center(child: CircularProgressIndicator());
+    }
+    if (!snapshot.hasData) {
+    return Center(child: Text("no data found"));
+    }
+    var user = snapshot.data!.docs;
+    return ListView.builder(
+                itemCount: user.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    elevation: 3,
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Color(0xffCF6A6AF0E4E4),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            height: 50,
+                            width: 50,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.rectangle,
+                              color: Colors.grey[400],
+                            ),
+                            child: const Icon(Icons.person,
+                                size: 30, color: Colors.white),
                           ),
-                          child: const Icon(Icons.person,
-                              size: 30, color: Colors.white),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Name",
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(user[index]["name"],
+                                    style: GoogleFonts.inter(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600)),
+                                  Text(user[index]["experience"],
+                                    style: GoogleFonts.inter(
+                                        fontSize: 14, color: Colors.black,fontWeight: FontWeight.w600)),
+                                Text(user[index]["qualification"],
                                   style: GoogleFonts.inter(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600)),
-                              Text("Experience",
-                                  style: GoogleFonts.inter(
-                                      fontSize: 14, color: Colors.black,fontWeight: FontWeight.w600)),
-                              Text("Specialist",
-                                style: GoogleFonts.inter(
-                                    fontSize: 14, color: Colors.black,fontWeight: FontWeight.w600),),
-                              Text("Contact number",
-                                  style: GoogleFonts.inter(
-                                      fontSize: 14, color: Colors.black,fontWeight: FontWeight.w600)),
-                              const SizedBox(height: 4),
-                              Row(
-                                children: [
-                                  const Icon(Icons.access_time,
-                                    size: 16, color: Colors.black,),
-                                  const SizedBox(width: 5),
-                                  Text("Monday - Friday at 8:00 am - 5:00pm",
-                                      style: GoogleFonts.inter(
-                                          fontSize: 12, color: Colors.black)),
-                                ],
-                              ),
-                            ],
+                                      fontSize: 14, color: Colors.black,fontWeight: FontWeight.w600),),
+                                Text(user[index]["number"],
+                                    style: GoogleFonts.inter(
+                                        fontSize: 14, color: Colors.black,fontWeight: FontWeight.w600)),
+                                const SizedBox(height: 4),
+                                Row(
+                                  children: [
+                                    const Icon(Icons.access_time,
+                                      size: 16, color: Colors.black,),
+                                    const SizedBox(width: 5),
+                                    Text("Monday - Friday at 8:00 am - 5:00pm",
+                                        style: GoogleFonts.inter(
+                                            fontSize: 12, color: Colors.black)),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+    );
+    },
             ),
           ),
         ],

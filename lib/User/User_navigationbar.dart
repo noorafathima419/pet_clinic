@@ -7,19 +7,19 @@ import 'package:pet_clinic/User/User_homepage.dart';
 import 'package:pet_clinic/User/User_notofication.dart';
 
 
-class NavigationBarMechanic extends StatefulWidget {
-  const NavigationBarMechanic({super.key});
+class NavigationBarUser extends StatefulWidget {
+  const NavigationBarUser({super.key});
 
   @override
-  State<NavigationBarMechanic> createState() => _NavigationBarMechanicState();
+  State<NavigationBarUser> createState() => _NavigationBarUserState();
 }
 
-class _NavigationBarMechanicState extends State<NavigationBarMechanic> {
+class _NavigationBarUserState extends State<NavigationBarUser> {
   int _selectedIndex = 0;
 
   static final List<Widget> _widgetOptions = [
     UserHomepage(),
-    UserNotofication(),
+    UserNotification(),
     UserDoctordetails(),
     PetProfilepage(),
   ];
