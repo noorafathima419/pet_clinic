@@ -10,6 +10,7 @@ import 'package:pet_clinic/Admin/Admin_doctor.dart';
 import 'package:pet_clinic/Admin/Admin_login.dart';
 import 'package:pet_clinic/Admin/Admin_user.dart';
 import 'package:pet_clinic/Doctor/Doctor_login.dart';
+import 'package:pet_clinic/Doctor/Doctor_view_grooming.dart';
 import 'package:pet_clinic/Doctor/View_Appoinment_details.dart';
 import 'package:pet_clinic/Doctor/Doctor_Tapbar.dart';
 import 'package:pet_clinic/Doctor/Doctor_notification.dart';
