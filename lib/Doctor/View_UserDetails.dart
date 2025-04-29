@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -5,16 +6,41 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pet_clinic/Doctor/Doctor_Tapbar.dart';
 
 class ViewUserdetails extends StatefulWidget {
-  const ViewUserdetails({super.key});
+  const ViewUserdetails(
+      {super.key,
+      required this.id,
+      required this.name,
+      required this.number,
+      required this.email,
+      required this.location});
+  final id;
+  final name;
+  final number;
+  final email;
+  final location;
 
   @override
   State<ViewUserdetails> createState() => _ViewUserdetailsState();
 }
 
 class _ViewUserdetailsState extends State<ViewUserdetails> {
+  Future<void> select_accept() async {
+    FirebaseFirestore.instance
+        .collection("user_register")
+        .doc(widget.id)
+        .update({"Status": 1});
+  }
+
+  Future<void> select_reject() async {
+    FirebaseFirestore.instance
+        .collection("Request")
+        .doc(widget.id)
+        .update({"Status": 2});
+  }
+
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       appBar: AppBar(
           backgroundColor: Color(0xff5CB15A),
           leading: IconButton(onPressed: () {
@@ -53,9 +79,9 @@ class _ViewUserdetailsState extends State<ViewUserdetails> {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(left: 65.w,top: 30.h),
+                            padding: EdgeInsets.only(left: 70.w,top: 30.h),
                             child: Text(
-                              "Lucky",
+                              "${widget.name}",
                               style: GoogleFonts.poppins(
                                   fontSize: 17.sp, fontWeight: FontWeight.w700),
                             ),
@@ -72,9 +98,9 @@ class _ViewUserdetailsState extends State<ViewUserdetails> {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: 30.w, top: 30.h),
+                          padding: EdgeInsets.only(left: 20.w, top: 30.h),
                           child: Text(
-                            "987543379",
+                            "${widget.number}",
                             style: GoogleFonts.poppins(
                                 fontSize: 17.sp, fontWeight: FontWeight.w700),
                           ),
@@ -90,9 +116,9 @@ class _ViewUserdetailsState extends State<ViewUserdetails> {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: 97.w,top: 30.h),
+                          padding: EdgeInsets.only(left: 50.w,top: 30.h),
                           child: Text(
-                            "nahf@gmail.com",
+                            "${widget.email}",
                             style: GoogleFonts.poppins(
                                 fontSize: 17.sp, fontWeight: FontWeight.w700),
                           ),
@@ -108,9 +134,9 @@ class _ViewUserdetailsState extends State<ViewUserdetails> {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: 97.w, top: 30.h),
+                          padding: EdgeInsets.only(left: 50.w, top: 30.h),
                           child: Text(
-                            "Calicut",
+                            "${widget.location}",
                             style: GoogleFonts.poppins(
                                 fontSize: 17.sp, fontWeight: FontWeight.w700),
                           ),
