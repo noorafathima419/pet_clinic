@@ -86,7 +86,7 @@ class _DoctorUserdetailsState extends State<DoctorUserdetails> {
                                               color: Colors.black,
                                               fontWeight: FontWeight.w600)),
                                       Text(
-                                        doct[index]["location"]??"",
+                                        doct[index]["place"]??"",
                                         style: GoogleFonts.inter(
                                             fontSize: 14.sp,
                                             color: Colors.black,

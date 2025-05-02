@@ -20,35 +20,35 @@ class UserLogin extends StatefulWidget {
 class _UserLoginState extends State<UserLogin> {
   final form_key = GlobalKey<FormState>();
   var passowrdctrl = TextEditingController();
-  var Emailctrl = TextEditingController();
+  var emailctrl = TextEditingController();
   String id = "";
-  Future<void> User_login() async {
-    final user = await FirebaseFirestore.instance
-        .collection("user_register")
-        .where("email", isEqualTo: Emailctrl.text)
-        .where("password", isEqualTo: passowrdctrl.text)
-        .get();
-
-    if (user.docs.isNotEmpty) {
-      id = user.docs[0].id;
-      print("$id");
-      SharedPreferences userdata = await SharedPreferences.getInstance();
-      userdata.setString("Userid", id);
-      Navigator.push(context, MaterialPageRoute(
-        builder: (context) {
-          return NavigationBarUser();
-        },
-      ));
-      print("done");
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("invalid mail or password"),
-          backgroundColor: Colors.black,
-        ),
-      );
-    }
-  }
+  // Future<void> User_login() async {
+  //   final user = await FirebaseFirestore.instance
+  //       .collection("user_register")
+  //       .where("email", isEqualTo: emailctrl.text)
+  //       .where("password", isEqualTo: passowrdctrl.text)
+  //       .get();
+  //
+  //   if (user.docs.isNotEmpty) {
+  //     id = user.docs[0].id;
+  //     print("$id");
+  //     SharedPreferences userdata = await SharedPreferences.getInstance();
+  //     userdata.setString("Userid", id);
+  //     Navigator.push(context, MaterialPageRoute(
+  //       builder: (context) {
+  //         return NavigationBarUser();
+  //       },
+  //     ));
+  //     print("done");
+  //   } else {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(
+  //         content: Text("invalid mail or password"),
+  //         backgroundColor: Colors.black,
+  //       ),
+  //     );
+  //   }
+  // }
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -56,18 +56,33 @@ class _UserLoginState extends State<UserLogin> {
   void loginUser() async {
     if (form_key.currentState!.validate()) {
       try {
-        // Use Firebase to sign in with email and password
-        UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: Emailctrl.text,
+        UserCredential userCredential =
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: emailctrl.text,
           password: passowrdctrl.text,
         );
 
         if (userCredential.user != null) {
-          // Redirect to the user homepage on successful login
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => NavigationBarUser()),
-          );
+          // ✅ Get user's Firestore document
+          final snapshot = await FirebaseFirestore.instance
+              .collection("user_register")
+              .where("email", isEqualTo: emailctrl.text)
+              .get();
+
+          if (snapshot.docs.isNotEmpty) {
+            String userId = snapshot.docs[0].id;
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            await prefs.setString("login_id", userId); // ✅ Save Firestore ID
+
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) =>NavigationBarUser ()),
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("User record not found in Firestore")),
+            );
+          }
         }
       } catch (e) {
         print("Login Error: $e");
@@ -110,7 +125,7 @@ class _UserLoginState extends State<UserLogin> {
                                   padding: EdgeInsets.only(
                                       top: 70.h, left: 10.w, right: 10.r),
                                   child: TextFormField(
-                                      controller: Emailctrl,
+                                      controller: emailctrl,
                                       validator: (value) {
                                         if (value!.isEmpty) {
                                           return "Empty password";

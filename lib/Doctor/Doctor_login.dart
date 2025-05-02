@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,13 +19,13 @@ class DoctorLogin extends StatefulWidget {
 class _DoctorLoginState extends State<DoctorLogin> {
   final form_key = GlobalKey<FormState>();
   var passowrdctrl = TextEditingController();
-  var Emailctrl = TextEditingController();
+  var emailctrl = TextEditingController();
   String id = "";
 
   void doctor_login() async {
     final login = await FirebaseFirestore.instance
         .collection("Doctor_Register")
-        .where("email", isEqualTo: Emailctrl.text)
+        .where("email", isEqualTo: emailctrl.text)
         .where("password", isEqualTo: passowrdctrl.text)
         .get();
 
@@ -45,6 +46,34 @@ class _DoctorLoginState extends State<DoctorLogin> {
           backgroundColor: Colors.red,
         ),
       );
+    }
+  }
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  void loginUser() async {
+    if (form_key.currentState!.validate()) {
+      try {
+        // Use Firebase to sign in with email and password
+        UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: emailctrl.text,
+          password: passowrdctrl.text,
+        );
+
+        if (userCredential.user != null) {
+          // Redirect to the user homepage on successful login
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => DoctorTapbar()),
+          );
+        }
+      } catch (e) {
+        print("Login Error: $e");
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Error: $e"),
+            backgroundColor: Colors.black,
+          ),
+        );
+      }
     }
   }
 
@@ -81,7 +110,7 @@ class _DoctorLoginState extends State<DoctorLogin> {
                                   padding: EdgeInsets.only(
                                       top: 70.h, left: 10.w, right: 10.r),
                                   child: TextFormField(
-                                      controller: Emailctrl,
+                                      controller: emailctrl,
                                       validator: (value) {
                                         if (value!.isEmpty) {
                                           return "Empty password";

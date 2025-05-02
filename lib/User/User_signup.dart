@@ -34,7 +34,13 @@ class _UserSignupState extends State<UserSignup> {
             .set({
           'name': namectrl.text,
           'email': emailctrl.text,
-          'place':locationctrl.text,
+          'location':locationctrl.text,
+          'number':numberctrl.text,
+          'password':passwordctrl.text,
+          'Status': 0,
+          'profile_path':
+          "https://images.pexels.com/photos/213780/pexels-photo-213780.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+
 
         });
 
@@ -55,24 +61,6 @@ class _UserSignupState extends State<UserSignup> {
   TextEditingController passwordctrl = TextEditingController();
   TextEditingController locationctrl = TextEditingController();
 
-  Future<void> user() async {
-    FirebaseFirestore.instance.collection("user_register").add({
-      "name": namectrl.text,
-      "number": numberctrl.text,
-      "email": emailctrl.text,
-      "password": passwordctrl.text,
-      "location": locationctrl.text,
-      "Status": 0,
-      "profile_path":
-      "https://images.pexels.com/photos/213780/pexels-photo-213780.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-    });
-    print("Success");
-    Navigator.push(context, MaterialPageRoute(
-      builder: (context) {
-        return UserLogin();
-      },
-    ));
-  }
 
   @override
   Widget build(BuildContext context) {

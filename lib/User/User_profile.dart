@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pet_clinic/User/User_homepage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserProfile extends StatefulWidget {
@@ -35,7 +36,12 @@ class _UserProfileState extends State<UserProfile> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.green,
-        leading: Icon(Icons.arrow_back_ios_new),
+        leading: InkWell(onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return UserHomepage();
+          },));
+        },
+            child: Icon(Icons.arrow_back_ios_new)),
         title: Padding(
           padding: EdgeInsets.only(left: 90.w),
           child: Text(
@@ -55,10 +61,12 @@ class _UserProfileState extends State<UserProfile> {
     if (snapshot.hasError) {
     return Center(child: Text("user found"));
     }
-    if (!snapshot.hasData || snapshot.data == null) {
-    return Center(child: Text("no user data found"));
+    final data = snapshot.data!.data();
+    if (data == null) {
+      return Center(child: Text("User document is empty."));
     }
-    final user = snapshot.data!.data() as Map<String, dynamic>;
+
+    final user = data;
         return  Column(
           children: [
             Row(

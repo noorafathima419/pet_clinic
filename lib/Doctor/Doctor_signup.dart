@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,35 +14,54 @@ class DoctorSignup extends StatefulWidget {
 }
 
 class _DoctorSignupState extends State<DoctorSignup> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  void registerDoctor() async {
+    if (form_key.currentState!.validate()) {
+      try {
+        UserCredential userCredential =
+        await _auth.createUserWithEmailAndPassword(
+          email: emailctrl.text,
+          password: passwordctrl.text,
+        );
+        await _firestore
+            .collection('Doctor_Register')
+            .doc(userCredential.user!.uid)
+            .set({
+          'name': namectrl.text,
+          'email': emailctrl.text,
+          'number':numberctrl.text,
+          'password':passwordctrl.text,
+          'experience':experiencectrl.text,
+          'qualification':qualificationctrl.text,
+          'location':locationctrl.text,
+          'Status': 0,
+          'profile_path':
+          "https://images.pexels.com/photos/213780/pexels-photo-213780.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+
+
+        });
+        Navigator.push(context, MaterialPageRoute(
+          builder: (context) {
+            return DoctorLogin();
+          },
+        ));
+      } catch (e) {
+        print("Registration Error: $e");
+      }
+    }
+  }
+
+
   final form_key = GlobalKey<FormState>();
   TextEditingController namectrl = TextEditingController();
   TextEditingController numberctrl = TextEditingController();
   TextEditingController experiencectrl =TextEditingController();
-  TextEditingController qualification = TextEditingController();
+  TextEditingController qualificationctrl = TextEditingController();
   TextEditingController emailctrl = TextEditingController();
   TextEditingController passwordctrl = TextEditingController();
+  TextEditingController locationctrl =TextEditingController();
 
-
-  Future<void> doctor() async {
-    FirebaseFirestore.instance.collection("Doctor_Register").add({
-      "name": namectrl.text,
-      "number": numberctrl.text,
-      "experience":experiencectrl.text,
-      "qualification":qualification.text,
-      "email": emailctrl.text,
-      "password": passwordctrl.text,
-
-      "Status": 0,
-      "profile_path":
-      "https://images.pexels.com/photos/213780/pexels-photo-213780.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-    });
-    print("Success");
-    Navigator.push(context, MaterialPageRoute(
-      builder: (context) {
-        return DoctorLogin();
-      },
-    ));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -134,7 +154,7 @@ class _DoctorSignupState extends State<DoctorSignup> {
                           Center(
                               child: Padding(
                                 padding:
-                                EdgeInsets.only(top: 10.h, left: 10.w, right: 10.r),
+                                EdgeInsets.only( left: 10.w, right: 10.r),
                                 child: TextFormField(controller: numberctrl,
                                     validator: (value) {
                                       if (value!.isEmpty) {
@@ -177,7 +197,7 @@ class _DoctorSignupState extends State<DoctorSignup> {
                           Center(
                               child: Padding(
                                 padding:
-                                EdgeInsets.only(top: 10.h, left: 10.w, right: 10.r),
+                                EdgeInsets.only( left: 10.w, right: 10.r),
                                 child: TextFormField(controller: experiencectrl,
                                     validator: (value) {
                                       if (value!.isEmpty) {
@@ -220,8 +240,8 @@ class _DoctorSignupState extends State<DoctorSignup> {
                           Center(
                               child: Padding(
                                 padding:
-                                EdgeInsets.only(top: 10.h, left: 10.w, right: 10.r),
-                                child: TextFormField(controller: qualification,
+                                EdgeInsets.only(left: 10.w, right: 10.r),
+                                child: TextFormField(controller: qualificationctrl,
                                     validator: (value) {
                                       if (value!.isEmpty) {
                                         return "Empty qualification";
@@ -262,7 +282,7 @@ class _DoctorSignupState extends State<DoctorSignup> {
                           ), Center(
                               child: Padding(
                                 padding:
-                                EdgeInsets.only(top: 10.h, left: 10.w, right: 10.r),
+                                EdgeInsets.only(left: 10.w, right: 10.r),
                                 child: TextFormField(controller: emailctrl,
                                     validator: (value) {
                                       if (value!.isEmpty) {
@@ -305,7 +325,7 @@ class _DoctorSignupState extends State<DoctorSignup> {
                           Center(
                               child: Padding(
                                 padding:
-                                EdgeInsets.only(top: 10.h, left: 10.w, right: 10.r),
+                                EdgeInsets.only(left: 10.w, right: 10.r),
                                 child: TextFormField(controller: passwordctrl,
                                     validator: (value) {
                                       if (value!.isEmpty) {
@@ -332,12 +352,56 @@ class _DoctorSignupState extends State<DoctorSignup> {
                                           borderSide: BorderSide(
                                               color: Colors.black, width: 2.w),
                                         ))),
-                              )),Row(
+                              )),  Row(
+                            children: [
+                              SizedBox(
+                                width: 10.w,
+                              ),
+                              Text(
+                                "location",
+                                style: GoogleFonts.rubik(
+                                    fontSize: 14, fontWeight: FontWeight.w500),
+                              )
+                            ],
+                          ), Center(
+                              child: Padding(
+                                padding:
+                                EdgeInsets.only( left: 10.w, right: 10.r),
+                                child: TextFormField(controller: locationctrl,
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return "Empty password";
+                                      }
+                                      return null;
+                                    },
+                                    decoration: InputDecoration(
+                                        hintText: 'Enter your location',
+                                        hintStyle: GoogleFonts.hind(
+                                            fontSize: 14.sp, color: Colors.grey),
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(12.r),
+                                          borderSide:
+                                          BorderSide(color: Colors.black),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(12.r),
+                                          borderSide:
+                                          BorderSide(color: Colors.black),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(12.r),
+                                          borderSide: BorderSide(
+                                              color: Colors.black, width: 2.w),
+                                        ))),
+                              )),
+                          Row(
                             children: [
                               Padding(
-                                padding: EdgeInsets.only(left: 80.w, top: 10.h),
-                                child: InkWell(onTap: () {
-                                  doctor();
+                                padding: EdgeInsets.only(left: 80.w, top: 30.h),
+                                child: GestureDetector(onTap: () {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                    return DoctorLogin();
+                                  },));
                                 },
                                   child: Container(
                                     child: Center(
@@ -358,7 +422,7 @@ class _DoctorSignupState extends State<DoctorSignup> {
                           )
                         ],
                       ),
-                      height: 630.h,
+                      height: 650.h,
                       width: 325.w,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.r),
@@ -382,18 +446,21 @@ class _DoctorSignupState extends State<DoctorSignup> {
               Row(
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(left: 70.w),
+                    padding: EdgeInsets.only(left: 70.w,top: 10.h),
                     child: Text(
                       "Already have an account? ",
                       style:
                       GoogleFonts.rubik(fontSize: 16.sp, color: Colors.black),
                     ),
                   ),
-                  TextButton(onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) {
-                      return DoctorLogin();
-                    },));
-                  }, child: Text("Login"))
+                  Padding(
+                    padding:  EdgeInsets.only(top: 10.h),
+                    child: TextButton(onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) {
+                        return DoctorLogin();
+                      },));
+                    }, child: Text("Login")),
+                  )
                 ],
               )
             ],
