@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,32 +21,63 @@ class _UserLoginState extends State<UserLogin> {
   final form_key = GlobalKey<FormState>();
   var passowrdctrl = TextEditingController();
   var Emailctrl = TextEditingController();
-  String id="";
-
-  void user_login() async {
-    final login = await FirebaseFirestore.instance
+  String id = "";
+  Future<void> User_login() async {
+    final user = await FirebaseFirestore.instance
         .collection("user_register")
         .where("email", isEqualTo: Emailctrl.text)
         .where("password", isEqualTo: passowrdctrl.text)
         .get();
 
-    if (login.docs.isNotEmpty) {
-      id = login.docs[0].id;
+    if (user.docs.isNotEmpty) {
+      id = user.docs[0].id;
       print("$id");
-      SharedPreferences login_data = await SharedPreferences.getInstance();
-      login_data.setString("login_id", id);
+      SharedPreferences userdata = await SharedPreferences.getInstance();
+      userdata.setString("Userid", id);
       Navigator.push(context, MaterialPageRoute(
         builder: (context) {
           return NavigationBarUser();
         },
       ));
+      print("done");
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Invalid e-mail or password!'),
-          backgroundColor: Colors.red,
+          content: Text("invalid mail or password"),
+          backgroundColor: Colors.black,
         ),
       );
+    }
+  }
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+
+  void loginUser() async {
+    if (form_key.currentState!.validate()) {
+      try {
+        // Use Firebase to sign in with email and password
+        UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: Emailctrl.text,
+          password: passowrdctrl.text,
+        );
+
+        if (userCredential.user != null) {
+          // Redirect to the user homepage on successful login
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => NavigationBarUser()),
+          );
+        }
+      } catch (e) {
+        print("Login Error: $e");
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Error: $e"),
+            backgroundColor: Colors.black,
+          ),
+        );
+      }
     }
   }
 
@@ -153,7 +185,7 @@ class _UserLoginState extends State<UserLogin> {
                                   child: InkWell(
                                     onTap: () {
                                       if (form_key.currentState!.validate()) {
-                                        user_login();
+                                        loginUser();
                                       }
                                     },
                                     child: Container(
