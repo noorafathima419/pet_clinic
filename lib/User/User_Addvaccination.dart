@@ -79,7 +79,7 @@ class _UserAddvaccinationState extends State<UserAddvaccination> {
               Padding(
                 padding: EdgeInsets.only(top: 40.h, left: 10.w),
                 child: Text(
-                  "Date",
+                  "Weight",
                   style: GoogleFonts.rubik(
                       fontSize: 14.sp, fontWeight: FontWeight.w500),
                 ),
@@ -97,7 +97,7 @@ class _UserAddvaccinationState extends State<UserAddvaccination> {
               child: TextFormField(
                 readOnly: true, // Prevents manual typing
                 decoration: InputDecoration(
-                  hintText: "12/10/2003",
+                  hintText: "20 Kg",
                   hintStyle: TextStyle(color: Colors.grey),
                   border: InputBorder.none,
                   contentPadding:

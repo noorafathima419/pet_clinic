@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -5,13 +6,38 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pet_clinic/Doctor/Doctor_Tapbar.dart';
 
 class DoctorAppoinment extends StatefulWidget {
-  const DoctorAppoinment({super.key});
+  const DoctorAppoinment(
+      {super.key,
+      required this.id,
+      required this.owner_name,
+      required this.name,
+      required this.pet_type,
+      required this.gender});
+  final id;
+  final owner_name;
+  final name;
+  final pet_type;
+  final gender;
 
   @override
   State<DoctorAppoinment> createState() => _DoctorAppoinmentState();
 }
 
 class _DoctorAppoinmentState extends State<DoctorAppoinment> {
+  Future<void> select_accept() async {
+    FirebaseFirestore.instance
+        .collection("Appoinment_details")
+        .doc(widget.id)
+        .update({"Status": 1});
+  }
+
+  Future<void> select_reject() async {
+    FirebaseFirestore.instance
+        .collection("Request")
+        .doc(widget.id)
+        .update({"Status": 2});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +72,7 @@ class _DoctorAppoinmentState extends State<DoctorAppoinment> {
                         Padding(
                           padding: EdgeInsets.only(left: 20.w, top: 30.h),
                           child: Text(
-                            "name",
+                            "${widget.owner_name}",
                             style: GoogleFonts.poppins(
                                 fontSize: 17.sp, fontWeight: FontWeight.w700),
                           ),
@@ -65,7 +91,7 @@ class _DoctorAppoinmentState extends State<DoctorAppoinment> {
                       Padding(
                         padding: EdgeInsets.only(left: 30.w, top: 30.h),
                         child: Text(
-                          "luna",
+                          "${widget.name}",
                           style: GoogleFonts.poppins(
                               fontSize: 17.sp, fontWeight: FontWeight.w700),
                         ),
@@ -83,7 +109,7 @@ class _DoctorAppoinmentState extends State<DoctorAppoinment> {
                       Padding(
                         padding: EdgeInsets.only(left: 30.w, top: 30.h),
                         child: Text(
-                          "persian",
+                          "${widget.pet_type}",
                           style: GoogleFonts.poppins(
                               fontSize: 17.sp, fontWeight: FontWeight.w700),
                         ),
@@ -101,7 +127,7 @@ class _DoctorAppoinmentState extends State<DoctorAppoinment> {
                       Padding(
                         padding: EdgeInsets.only(left: 20.w, top: 30.h),
                         child: Text(
-                          "male",
+                          "${widget.gender}",
                           style: GoogleFonts.poppins(
                               fontSize: 17.sp, fontWeight: FontWeight.w700),
                         ),
@@ -119,7 +145,7 @@ class _DoctorAppoinmentState extends State<DoctorAppoinment> {
                       Padding(
                         padding: EdgeInsets.only(left: 10.w, top: 30.h),
                         child: Text(
-                          "FVRCP",
+                          "vaccination",
                           style: GoogleFonts.poppins(
                               fontSize: 17.sp, fontWeight: FontWeight.w700),
                         ),
@@ -137,7 +163,7 @@ class _DoctorAppoinmentState extends State<DoctorAppoinment> {
                       Padding(
                         padding: EdgeInsets.only(left: 30.w, top: 30.h),
                         child: Text(
-                          "Seconddose",
+                          "Dose",
                           style: GoogleFonts.poppins(
                               fontSize: 17.sp, fontWeight: FontWeight.w700),
                         ),
@@ -155,7 +181,7 @@ class _DoctorAppoinmentState extends State<DoctorAppoinment> {
                       Padding(
                         padding: EdgeInsets.only(left: 30.w, top: 30.h),
                         child: Text(
-                          "10kg",
+                          "Weight",
                           style: GoogleFonts.poppins(
                               fontSize: 17.sp, fontWeight: FontWeight.w700),
                         ),

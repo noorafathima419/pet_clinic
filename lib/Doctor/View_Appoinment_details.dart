@@ -41,11 +41,20 @@ class _AddVaccinationState extends State<AddVaccination> {
                         margin: EdgeInsets.symmetric(vertical: 10),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20)),
-                        child: InkWell(onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) {
-                            return DoctorAppoinment();
-                          },));
-                        },
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(
+                              builder: (context) {
+                                return DoctorAppoinment(
+                                  id: doct[index].id,
+                                  name: doct[index]["name"] ?? "",
+                                  owner_name: doct[index]["owner_name"] ?? "",
+                                  pet_type: doct[index]["pet_type"] ?? "",
+                                  gender: doct[index]["gender"] ?? "",
+                                );
+                              },
+                            ));
+                          },
                           child: Container(
                             padding: EdgeInsets.all(16),
                             decoration: BoxDecoration(
@@ -67,13 +76,14 @@ class _AddVaccinationState extends State<AddVaccination> {
                                 SizedBox(width: 16.w),
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(doct[index]["name"],
                                           style: GoogleFonts.inter(
                                               fontSize: 16.sp,
                                               fontWeight: FontWeight.w600)),
-                                      Text(doct[index]["name"],
+                                      Text(doct[index]["owner_name"],
                                           style: GoogleFonts.inter(
                                               fontSize: 14.sp,
                                               color: Colors.black,
