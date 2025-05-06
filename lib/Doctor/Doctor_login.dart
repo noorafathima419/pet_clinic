@@ -33,7 +33,7 @@ class _DoctorLoginState extends State<DoctorLogin> {
       id = login.docs[0].id;
       print("$id");
       SharedPreferences login_data = await SharedPreferences.getInstance();
-      login_data.setString("login_id", id);
+      login_data.setString("Doctor_id", id);
       Navigator.push(context, MaterialPageRoute(
         builder: (context) {
           return DoctorTapbar();
@@ -49,21 +49,38 @@ class _DoctorLoginState extends State<DoctorLogin> {
     }
   }
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  void loginUser() async {
+
+
+  void registerDoctor() async {
     if (form_key.currentState!.validate()) {
       try {
-        // Use Firebase to sign in with email and password
-        UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        UserCredential userCredential =
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailctrl.text,
           password: passowrdctrl.text,
         );
 
         if (userCredential.user != null) {
-          // Redirect to the user homepage on successful login
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => DoctorTapbar()),
-          );
+          // ✅ Get user's Firestore document
+          final snapshot = await FirebaseFirestore.instance
+              .collection("Doctor_Register")
+              .where("email", isEqualTo: emailctrl.text)
+              .get();
+
+          if (snapshot.docs.isNotEmpty) {
+            String doctor_id = snapshot.docs[0].id;
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            await prefs.setString("Doctor_id",doctor_id ); // ✅ Save Firestore ID
+
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => DoctorTapbar()),
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("User record not found in Firestore")),
+            );
+          }
         }
       } catch (e) {
         print("Login Error: $e");
@@ -194,7 +211,7 @@ class _DoctorLoginState extends State<DoctorLogin> {
                                         onTap: () {
                                           if (form_key.currentState!
                                               .validate()) {
-                                            doctor_login();
+                                            registerDoctor();
                                           }
                                         },
                                         child: Container(

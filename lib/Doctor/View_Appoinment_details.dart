@@ -69,7 +69,7 @@ class _AddVaccinationState extends State<AddVaccination> {
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text(doct[index]["owner_name"],
+                                      Text(doct[index]["name"],
                                           style: GoogleFonts.inter(
                                               fontSize: 16.sp,
                                               fontWeight: FontWeight.w600)),
