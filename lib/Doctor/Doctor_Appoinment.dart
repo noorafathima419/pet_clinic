@@ -12,12 +12,16 @@ class DoctorAppoinment extends StatefulWidget {
       required this.owner_name,
       required this.name,
       required this.pet_type,
-      required this.gender});
+      required this.gender,
+      required this.vaccination,
+      required this.weight});
   final id;
   final owner_name;
   final name;
   final pet_type;
   final gender;
+  final vaccination;
+  final weight;
 
   @override
   State<DoctorAppoinment> createState() => _DoctorAppoinmentState();
@@ -25,17 +29,19 @@ class DoctorAppoinment extends StatefulWidget {
 
 class _DoctorAppoinmentState extends State<DoctorAppoinment> {
   Future<void> select_accept() async {
-    FirebaseFirestore.instance
+    await FirebaseFirestore.instance
         .collection("Appoinment_details")
         .doc(widget.id)
         .update({"Status": 1});
+    setState(() {});
   }
 
   Future<void> select_reject() async {
-    FirebaseFirestore.instance
-        .collection("Request")
+    await FirebaseFirestore.instance
+        .collection("Appoinment_details")
         .doc(widget.id)
         .update({"Status": 2});
+    setState(() {});
   }
 
   @override
@@ -44,11 +50,9 @@ class _DoctorAppoinmentState extends State<DoctorAppoinment> {
       appBar: AppBar(
           leading: IconButton(
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) {
-                    return DoctorTapbar();
-                  },
-                ));
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return DoctorTapbar();
+                }));
               },
               icon: Icon(Icons.arrow_back_ios_new))),
       body: FutureBuilder(
@@ -67,7 +71,7 @@ class _DoctorAppoinmentState extends State<DoctorAppoinment> {
               return Center(child: Text("No data found"));
             }
             final appoinment_datas =
-                snapshot.data!.data() as Map<String, dynamic>;
+            snapshot.data!.data() as Map<String, dynamic>;
             return Column(children: [
               Row(
                 children: [
@@ -171,7 +175,7 @@ class _DoctorAppoinmentState extends State<DoctorAppoinment> {
                             Padding(
                               padding: EdgeInsets.only(left: 10.w, top: 30.h),
                               child: Text(
-                                "vaccination",
+                                "${widget.vaccination}",
                                 style: GoogleFonts.poppins(
                                     fontSize: 17.sp,
                                     fontWeight: FontWeight.w700),
@@ -211,7 +215,7 @@ class _DoctorAppoinmentState extends State<DoctorAppoinment> {
                             Padding(
                               padding: EdgeInsets.only(left: 30.w, top: 30.h),
                               child: Text(
-                                "Weight",
+                                "${widget.weight}",
                                 style: GoogleFonts.poppins(
                                     fontSize: 17.sp,
                                     fontWeight: FontWeight.w700),
@@ -329,8 +333,8 @@ class _DoctorAppoinmentState extends State<DoctorAppoinment> {
                           ),
                         ],
                       ),
-                      width: 390.w,
-                      height: 499.h,
+                      width: 370.w,
+                      height: 620.h,
                       decoration: BoxDecoration(
                           color: Colors.green[100],
                           borderRadius: BorderRadius.circular(20.r)),

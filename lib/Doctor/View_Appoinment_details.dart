@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import  'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -51,6 +51,8 @@ class _AddVaccinationState extends State<AddVaccination> {
                                   owner_name: doct[index]["owner_name"] ?? "",
                                   pet_type: doct[index]["pet_type"] ?? "",
                                   gender: doct[index]["gender"] ?? "",
+                                  vaccination: doct[index]["vaccination"]??"",
+                                  weight: doct[index]["weight"]??"",
                                 );
                               },
                             ));
