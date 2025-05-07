@@ -130,8 +130,8 @@ class _AdminLoginState extends State<AdminLogin> {
                                   child: InkWell(
                                     onTap: () {
                                       if (form_key.currentState!.validate()) {
-                                        if (Emailctrl.text == "noora@gmail.com" &&
-                                            passowrdctrl.text == "noorafathima") {
+                                        if (Emailctrl.text == "hanna@gmail.com" &&
+                                            passowrdctrl.text == "hannath") {
                                           Navigator.push(context, MaterialPageRoute(
                                             builder: (context) {
                                               return AdminDashboard();
