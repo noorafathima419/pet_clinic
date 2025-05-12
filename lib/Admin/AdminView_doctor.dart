@@ -1,305 +1,481 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pet_clinic/Admin/Admin_doctor.dart';
 
 class AdminviewDoctor extends StatefulWidget {
-  const AdminviewDoctor({super.key});
-
+  const AdminviewDoctor({super.key, required this.id});
+  final id;
   @override
   State<AdminviewDoctor> createState() => _AdminviewDoctorState();
 }
 
 class _AdminviewDoctorState extends State<AdminviewDoctor> {
+  Future<void> select_accept() async {
+    await FirebaseFirestore.instance
+        .collection("Doctor_Register")
+        .doc(widget.id)
+        .update({"Status": 1});
+    setState(() {});
+  }
+
+  Future<void> select_reject() async {
+    await FirebaseFirestore.instance
+        .collection("Doctor_Register")
+        .doc(widget.id)
+        .update({"Status": 2});
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Color(0xff5CB15A),
-          title: Padding(
-            padding: EdgeInsets.only(left: 150.w),
-            child: Text(
-              "Doctors",
-              style: GoogleFonts.poppins(
-                  fontWeight: FontWeight.w500, fontSize: 20.sp),
-            ),
+      appBar: AppBar(
+        backgroundColor: Color(0xff5CB15A),
+        title: Padding(
+          padding: EdgeInsets.only(left: 150.w),
+          child: Text(
+            "Doctors",
+            style: GoogleFonts.poppins(
+                fontWeight: FontWeight.w500, fontSize: 20.sp),
           ),
         ),
-        body: Column(children: [
-          Row(children: [
-            Padding(
-                padding: EdgeInsets.only(left: 30.w, top: 30.h),
-                child: Card(
-                  child: Container(
-                      child: ListView(children: [
-                        Column(
+      ),
+      body: FutureBuilder(
+          future: FirebaseFirestore.instance
+              .collection("Doctor_Register")
+              .doc(widget.id)
+              .get(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (snapshot.hasError) {
+              return Center(
+                child: Text("User not found"),
+              );
+            }
+            if (!snapshot.hasData || snapshot.data == null) {
+              return Center(
+                child: Text("No data founded"),
+              );
+            }
+            final Doctordata = snapshot.data!.data() as Map<String, dynamic>;
+
+            return ListView(children: [
+              Row(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 20.w, top: 50.h),
+                    child: Container(
+                      child: Column(children: [
+                        Row(
                           children: [
-                            Row(
-                              children: [Icon(Icons.arrow_back_ios_new_sharp)],
-                            ),
-                            Row(
-                              children: [
-                                Padding(
-                                  padding:
-                                  EdgeInsets.only(top: 30.h, left: 130.w),
-                                  child: CircleAvatar(
-                                    radius: 40.r,
-                                  ),
-                                )
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(left: 130.w),
-                                  child: Text(
-                                    "User name",
-                                    style: GoogleFonts.poppins(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 15.sp),
-                                  ),
-                                )
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Padding(
-                                  padding:  EdgeInsets.only(left: 140.w),
-                                  child: Text("Location"),
-                                )
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Padding(
-                                  padding:
-                                  EdgeInsets.only(left: 30.w
-                                      , top: 50.h),
-                                  child: Text("User name"),
-                                )
-                              ],
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 30.w, right: 40.r),
-                              child: Container(
-                                // width: 300.w,
-                                child: TextFormField(
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderSide:
-                                        BorderSide(color: Colors.white),
-                                        borderRadius:
-                                        BorderRadius.circular(10.r)),
-                                    prefixIconColor: Colors.white,
-                                    suffixIconColor: Colors.pink,
-                                    hintText: "name",
-                                    fillColor: Colors.white,
-                                    filled: true,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Row(
-                              children: [
-                                Padding(
-                                  padding:  EdgeInsets.only(left: 30.w),
-                                  child: Text(
-                                    "Phone number",
-                                    style: GoogleFonts.poppins(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 15.sp),
-                                  ),
-                                )
-                              ],
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 30.w, right: 40.w),
-                              child: Container(
-                                // width: 300.w,
-                                child: TextFormField(
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderSide:
-                                        BorderSide(color: Colors.white),
-                                        borderRadius:
-                                        BorderRadius.circular(10.r)),
-                                    prefixIconColor: Colors.white,
-                                    suffixIconColor: Colors.pink,
-                                    hintText: "0000000000",
-                                    fillColor: Colors.white,
-                                    filled: true,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Row(
-                              children: [
-                                Padding(
-                                  padding:  EdgeInsets.only(left: 30.w),
-                                  child: Text(
-                                    "Eamil",
-                                    style: GoogleFonts.poppins(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 15.sp),
-                                  ),
-                                )
-                              ],
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 30.w, right: 40.w),
-                              child: Container(
-                                // width: 300.w,
-                                child: TextFormField(
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderSide:
-                                        BorderSide(color: Colors.white),
-                                        borderRadius:
-                                        BorderRadius.circular(10.r)),
-                                    prefixIconColor: Colors.white,
-                                    suffixIconColor: Colors.pink,
-                                    hintText: "mail",
-                                    fillColor: Colors.white,
-                                    filled: true,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Row(
-                              children: [
-                                Padding(
-                                  padding:  EdgeInsets.only(left: 30.w),
-                                  child: Text(
-                                    "Place",
-                                    style: GoogleFonts.poppins(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 15.sp),
-                                  ),
-                                )
-                              ],
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 30.w, right: 40.w),
-                              child: Container(
-                                // width: 300.w,
-                                child: TextFormField(
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderSide:
-                                        BorderSide(color: Colors.white),
-                                        borderRadius:
-                                        BorderRadius.circular(10.r)),
-                                    prefixIconColor: Colors.white,
-                                    suffixIconColor: Colors.pink,
-                                    hintText: "place",
-                                    fillColor: Colors.white,
-                                    filled: true,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Row(
-                              children: [
-                                Padding(
-                                  padding:  EdgeInsets.only(left: 30.w),
-                                  child: Text(
-                                    "password",
-                                    style: GoogleFonts.poppins(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 15.sp),
-                                  ),
-                                )
-                              ],
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 30.w, right: 40.w),
-                              child: Container(
-                                // width: 300.w,
-                                child: TextFormField(
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderSide:
-                                        BorderSide(color: Colors.white),
-                                        borderRadius:
-                                        BorderRadius.circular(10.r)),
-                                    prefixIconColor: Colors.white,
-                                    suffixIconColor: Colors.pink,
-                                    hintText: "password",
-                                    fillColor: Colors.white,
-                                    filled: true,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Row(
-                              children: [
-                                Padding(
-                                  padding:
-                                  EdgeInsets.only(left: 30.w, top: 30.h),
-                                  child: Container(
-                                    child: Padding(
-                                      padding:  EdgeInsets.only(
-                                          top: 5.h, left: 20.w),
-                                      child: Text(
-                                        "Accept",
-                                        style: GoogleFonts.poppins(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 20.sp),
-                                      ),
-                                    ),
-                                    height: 40.h,
-                                    width: 130.w,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15.r),
-                                        color: Colors.lightGreen),
-                                  ),
-                                ),
-                                Padding(
-                                  padding:
-                                  EdgeInsets.only(left: 10.w, top: 30.h),
-                                  child: Container(
-                                    child: Padding(
-                                      padding:  EdgeInsets.only(
-                                          top: 5.h, left: 20.w),
-                                      child: Text(
-                                        "Reject",
-                                        style: GoogleFonts.poppins(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 20.sp),
-                                      ),
-                                    ),
-                                    height: 40.h,
-                                    width: 130.w,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15.r),
-                                        color: Colors.red),
-                                  ),
-                                )
-                              ],
-                            )
+                            IconButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) {
+                                      return AdminDoctor();
+                                    },
+                                  ));
+                                },
+                                icon: Icon(Icons.arrow_back_ios_new_sharp))
                           ],
                         ),
+                        Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Padding(
+                                  padding: EdgeInsets.only(left: 20.w),
+                                  child: CircleAvatar(
+                                    radius: 70.r,
+                                    backgroundColor: Colors.brown[300],
+                                    // backgroundImage: AssetImage(
+                                    //     "assets/"),
+                                  )),
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.only(left: 170.w, top: 2.h),
+                                    child: Text(
+                                      Doctordata["name"] ?? "no data found",
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 18.sp,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.only(top: 5.h, left: 40.w),
+                                    child: Text(
+                                      "Username",
+                                      style: GoogleFonts.rubik(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w300,
+                                          fontSize: 18.sp),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 45.w),
+                                    child: Container(
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            Doctordata["name"] ?? "no data",
+                                            style: GoogleFonts.poppins(
+                                                fontWeight: FontWeight.w300,
+                                                color: Colors.grey),
+                                          ),
+                                        ],
+                                      ),
+                                      height: 41.h,
+                                      width: 300.w,
+                                      decoration: BoxDecoration(
+                                          color: Color(0xffFFFFFF),
+                                          borderRadius:
+                                              BorderRadius.circular(8)),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              SizedBox(
+                                height: 20.h,
+                              ),
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.only(top: 5.h, left: 40.w),
+                                    child: Text(
+                                      "Phone number",
+                                      style: GoogleFonts.rubik(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w300,
+                                          fontSize: 18.sp),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 45.w),
+                                    child: Container(
+                                        child: Text(
+                                          Doctordata["number"] ?? "no data",
+                                          style: GoogleFonts.rubik(
+                                              fontWeight: FontWeight.w300,
+                                              color: Colors.grey),
+                                        ),
+                                        height: 41.h,
+                                        width: 300.w,
+                                        decoration: BoxDecoration(
+                                            color: Color(0xffFFFFFF),
+                                            borderRadius:
+                                                BorderRadius.circular(8))),
+                                  )
+                                ],
+                              ),
+                              SizedBox(
+                                height: 20.h,
+                              ),
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.only(top: 5.h, left: 40.w),
+                                    child: Text(
+                                      "Qualification",
+                                      style: GoogleFonts.rubik(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w300,
+                                          fontSize: 18.sp),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 45.w),
+                                    child: Container(
+                                      child: Text(
+                                        Doctordata["qualification"] ?? "",
+                                        style: GoogleFonts.poppins(
+                                            color: Colors.grey,
+                                            fontWeight: FontWeight.w300),
+                                      ),
+                                      height: 41.h,
+                                      width: 300.w,
+                                      decoration: BoxDecoration(
+                                          color: Color(0xffFFFFFF),
+                                          borderRadius:
+                                              BorderRadius.circular(8)),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              SizedBox(
+                                height: 20.h,
+                              ),
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.only(top: 5.h, left: 40.w),
+                                    child: Text(
+                                      "Work experience",
+                                      style: GoogleFonts.rubik(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w300,
+                                          fontSize: 18.sp),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 45.w),
+                                    child: Container(
+                                      child: Text(
+                                        Doctordata["experience"] ?? "",
+                                        style: GoogleFonts.poppins(
+                                            color: Colors.grey,
+                                            fontWeight: FontWeight.w300),
+                                      ),
+                                      height: 41.h,
+                                      width: 300.w,
+                                      decoration: BoxDecoration(
+                                          color: Color(0xffFFFFFF),
+                                          borderRadius:
+                                              BorderRadius.circular(8)),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              SizedBox(
+                                height: 20.h,
+                              ),
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.only(top: 5.h, left: 40.w),
+                                    child: Text(
+                                      "Email",
+                                      style: GoogleFonts.rubik(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w300,
+                                          fontSize: 18.sp),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 45.w),
+                                    child: Container(
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            Doctordata["email"] ?? "",
+                                            style: GoogleFonts.poppins(
+                                                color: Colors.grey,
+                                                fontWeight: FontWeight.w300),
+                                          ),
+                                        ],
+                                      ),
+                                      height: 41.h,
+                                      width: 300.w,
+                                      decoration: BoxDecoration(
+                                          color: Color(0xffFFFFFF),
+                                          borderRadius:
+                                              BorderRadius.circular(8)),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              SizedBox(
+                                height: 20.h,
+                              ),
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.only(top: 5.h, left: 40.w),
+                                    child: Text(
+                                      "Experience",
+                                      style: GoogleFonts.rubik(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w300,
+                                          fontSize: 15.sp),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 45.w),
+                                    child: Container(
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              Doctordata["experience"] ?? "",
+                                              style: GoogleFonts.poppins(
+                                                  color: Colors.grey,
+                                                  fontWeight: FontWeight.w300),
+                                            ),
+                                          ],
+                                        ),
+                                        height: 41.h,
+                                        width: 300.w,
+                                        decoration: BoxDecoration(
+                                            color: Color(0xffFFFFFF),
+                                            borderRadius:
+                                                BorderRadius.circular(10))),
+                                  )
+                                ],
+                              ),
+                              Doctordata["Status"] == 0
+                                  ? Row(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 40.w, top: 150.h),
+                                          child: InkWell(
+                                            onTap: () {
+                                              select_accept();
+                                            },
+                                            child: Container(
+                                              child: Center(
+                                                child: Text(
+                                                  "Accept",
+                                                  style: GoogleFonts.poppins(
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontSize: 18.sp),
+                                                ),
+                                              ),
+                                              width: 100.w,
+                                              height: 50.h,
+                                              decoration: BoxDecoration(
+                                                  color: Color(0xff73ABFF),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          5.r)),
+                                            ),
+                                          ),
+                                        ),
+                                        Row(
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                  left: 10.w, top: 150.h),
+                                              child: InkWell(
+                                                onTap: () {
+                                                  select_reject();
+                                                },
+                                                child: Container(
+                                                  child: Center(
+                                                    child: Text(
+                                                      "reject",
+                                                      style:
+                                                          GoogleFonts.poppins(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              fontSize: 18.sp),
+                                                    ),
+                                                  ),
+                                                  width: 100.w,
+                                                  height: 50.h,
+                                                  decoration: BoxDecoration(
+                                                      color: Color(0xffFF9F9D),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5.r)),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    )
+                                  : Doctordata["Status"] == 1
+                                      ? Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 30.w, top: 30.h),
+                                          child: Container(
+                                            child: Center(
+                                              child: Text(
+                                                "Accepted",
+                                                style: GoogleFonts.poppins(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 18.sp),
+                                              ),
+                                            ),
+                                            width: 100.w,
+                                            height: 50.h,
+                                            decoration: BoxDecoration(
+                                                color: Color(0xff5CB15A),
+                                                borderRadius:
+                                                    BorderRadius.circular(5.r)),
+                                          ),
+                                        )
+                                      : Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 40.w, top: 10.h),
+                                          child: Container(
+                                            child: Center(
+                                              child: Text(
+                                                "Rejected",
+                                                style: GoogleFonts.poppins(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 18.sp),
+                                              ),
+                                            ),
+                                            width: 100.w,
+                                            height: 50.h,
+                                            decoration: BoxDecoration(
+                                                color: Color(0xffCA1518),
+                                                borderRadius:
+                                                    BorderRadius.circular(5.r)),
+                                          ),
+                                        ),
+                            ]),
                       ]),
-                      height: 700.h,
-                      width: 325.w,
+                      height: 900.h,
+                      width: 370.w,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.r),
-                        color: Color(0xffF0E4E4),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black
-                                .withOpacity(0.2), // Shadow color with opacity
-                            spreadRadius: 0, // How much the shadow spreads
-                            blurRadius: 4, // Softness of the shadow
-                            offset:
-                            Offset(0, 4), // X and Y offset of the shadow
-                          ),
-                        ],
-                      )),
-                )),
-          ]),
-        ]));
+                          color: Color(0xffF0E4E4),
+                          borderRadius: BorderRadius.circular(10.sp)),
+                    ),
+                  )
+                ],
+              ),
+            ]);
+          }),
+    );
   }
 }
