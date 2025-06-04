@@ -10,14 +10,14 @@ class DoctorAppoinment extends StatefulWidget {
       {super.key,
       required this.id,
       required this.owner_name,
-      required this.name,
+      required this.pet_name,
       required this.pet_type,
       required this.gender,
       required this.vaccination,
       required this.weight});
   final id;
   final owner_name;
-  final name;
+  final pet_name;
   final pet_type;
   final gender;
   final vaccination;
@@ -115,7 +115,7 @@ class _DoctorAppoinmentState extends State<DoctorAppoinment> {
                             Padding(
                               padding: EdgeInsets.only(left: 30.w, top: 30.h),
                               child: Text(
-                                "${widget.name}",
+                                "${widget.pet_name}",
                                 style: GoogleFonts.poppins(
                                     fontSize: 17.sp,
                                     fontWeight: FontWeight.w700),

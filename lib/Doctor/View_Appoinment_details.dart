@@ -47,7 +47,7 @@ class _AddVaccinationState extends State<AddVaccination> {
                               builder: (context) {
                                 return DoctorAppoinment(
                                   id: doct[index].id,
-                                  name: doct[index]["name"] ?? "",
+                                  pet_name: doct[index]["pet_name"] ?? "",
                                   owner_name: doct[index]["owner_name"] ?? "",
                                   pet_type: doct[index]["pet_type"] ?? "",
                                   gender: doct[index]["gender"] ?? "",
@@ -81,7 +81,7 @@ class _AddVaccinationState extends State<AddVaccination> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(doct[index]["name"],
+                                      Text(doct[index]["pet_name"],
                                           style: GoogleFonts.inter(
                                               fontSize: 16.sp,
                                               fontWeight: FontWeight.w600)),

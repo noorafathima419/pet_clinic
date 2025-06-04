@@ -56,7 +56,7 @@ class _UserAddAppoinmentDetailsState extends State<UserAddAppoinmentDetails> {
   }
 
   final form_key = GlobalKey<FormState>();
-  TextEditingController namectrl = TextEditingController();
+  TextEditingController pet_namectrl = TextEditingController();
   TextEditingController numberctrl = TextEditingController();
   TextEditingController ownerctrl = TextEditingController();
   TextEditingController datectrl = TextEditingController();
@@ -69,7 +69,7 @@ class _UserAddAppoinmentDetailsState extends State<UserAddAppoinmentDetails> {
       return;
     }
     FirebaseFirestore.instance.collection("Appoinment_details").add({
-      "name": namectrl.text,
+      "pet_name": pet_namectrl.text,
       "number": numberctrl.text,
       "time": _selectedTime.format(context),
       "pet_type": pettypectrl.text,
@@ -138,9 +138,9 @@ class _UserAddAppoinmentDetailsState extends State<UserAddAppoinmentDetails> {
                               BorderRadius.circular(12), // Rounded corners
                             ),
                             child: TextFormField(
-                              controller: namectrl,
+                              controller: pet_namectrl,
                               decoration: InputDecoration(
-                                hintText: "Name",
+                                hintText: "pet_name",
                                 hintStyle: TextStyle(
                                     color: Colors.grey), // Hint text color
                                 border:

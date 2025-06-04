@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pet_clinic/User/User_navigationbar.dart';
 
 class PetProfilepage extends StatefulWidget {
   const PetProfilepage({super.key});
@@ -13,7 +15,7 @@ class PetProfilepage extends StatefulWidget {
 class _PetProfilepageState extends State<PetProfilepage> {
   String? selectedColor;
   String? selectedWeight;
-  bool isFemale = true;
+ String _selectedGender ="";
   DateTime? selectedDate;
 
   Future<void> _selectDate(BuildContext context) async {
@@ -30,6 +32,26 @@ class _PetProfilepageState extends State<PetProfilepage> {
     }
   }
 
+  final form_key = GlobalKey<FormState>();
+  TextEditingController birthdatectrl = TextEditingController();
+  TextEditingController colorctrl = TextEditingController();
+  TextEditingController genderctrl = TextEditingController();
+  TextEditingController weightctrl = TextEditingController();
+  Future<void> petprofile() async {
+    FirebaseFirestore.instance.collection("pets_details").add({
+      "birthday": selectedDate,
+      "color": selectedColor,
+      "gender":_selectedGender ,
+      "weight": selectedWeight,
+    });
+    print("Success");
+    Navigator.push(context, MaterialPageRoute(
+      builder: (context) {
+        return NavigationBarUser();
+      },
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -38,114 +60,133 @@ class _PetProfilepageState extends State<PetProfilepage> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {},
-        ),actions: [Icon(Icons.add)],
+        ),
+        actions: [IconButton(onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return PetProfilepage();
+          },));
+        }, icon: Icon(Icons.add))],
         title: Padding(
-          padding: EdgeInsets.only(left: 60.w),
+          padding: EdgeInsets.only(left: 60),
           child: Text("Pet Profile", style: TextStyle(color: Colors.black)),
         ),
       ),
       body: Padding(
-        padding:  EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              padding: EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Color(0xffBDDCBD),
-                borderRadius: BorderRadius.circular(10.r),
+        padding: const EdgeInsets.all(16.0),
+        child: ListView(children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                padding: EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Color(0xffBDDCBD),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.pets, color: Colors.green),
+                    SizedBox(width: 8),
+                    Text("Profile Details",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold)),
+                  ],
+                ),
               ),
-              child: Row(
+              SizedBox(height: 20),
+              CircleAvatar(
+                radius: 50,
+                // backgroundImage: AssetImage("assets/images (3) 2.png"),
+              ),
+              SizedBox(height: 10),
+              Text("Name",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              SizedBox(height: 20),
+              TextField(
+                controller: TextEditingController(
+                  text: selectedDate == null
+                      ? "pet_name"
+                      : "${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}",
+                ),
+                decoration: InputDecoration(
+                  hintText: "BirthDate",
+                  prefixIcon: Icon(Icons.calendar_today),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                ),
+                readOnly: true,
+                onTap: () => _selectDate(context),
+              ),
+              SizedBox(height: 10),
+              _buildDropdownField(
+                  "Color", ["Black", "White", "Brown", "Golden"], selectedColor,
+                      (val) {
+                    setState(() => selectedColor = val);
+                  }),
+              SizedBox(height: 10),
+              Row(
                 children: [
-                  Icon(Icons.pets, color: Colors.green),
-                  SizedBox(width: 8.w),
-                  Text("Profile Details",
-                      style:
-                      TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold)),
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: _selectedGender == "female" ? Colors.green : Colors.white,
+                        side: BorderSide(color: Colors.green),
+                      ),
+                      onPressed: () => setState(() => _selectedGender = "female"),
+                      child: Text(
+                        "Female",
+                        style: TextStyle(
+                          color: _selectedGender == "female" ? Colors.white : Colors.green,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: _selectedGender == "male" ? Colors.green : Colors.white,
+                        side: BorderSide(color: Colors.green),
+                      ),
+                      onPressed: () => setState(() => _selectedGender = "male"),
+                      child: Text(
+                        "Male",
+                        style: TextStyle(
+                          color: _selectedGender == "male" ? Colors.white : Colors.green,
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
-            ),
-            SizedBox(height: 20.h),
-            CircleAvatar(
-              radius: 50.r,
-              backgroundImage: AssetImage("assets/pet.jpg"),
-            ),
-            SizedBox(height: 10.h),
-            Text("Name",
-                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold)),
-            SizedBox(height: 20.h),
-            TextField(
-              controller: TextEditingController(
-                text: selectedDate == null
-                    ? ""
-                    : "${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}",
-              ),
-              decoration: InputDecoration(
-                hintText: "BirthDate",
-                prefixIcon: Icon(Icons.calendar_today),
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.r)),
-              ),
-              readOnly: true,
-              onTap: () => _selectDate(context),
-            ),
-            SizedBox(height: 10.h),
-            _buildDropdownField(
-                "Color", ["Black", "White", "Brown", "Golden"], selectedColor,
-                    (val) {
-                  setState(() => selectedColor = val);
-                }),
-            SizedBox(height: 10.h),
-            Row(
-              children: [
-                Expanded(
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: isFemale ? Colors.green : Colors.white,
-                      side: BorderSide(color: Colors.green),
-                    ),
-                    onPressed: () => setState(() => isFemale = true),
-                    child: Text("Female",
-                        style: TextStyle(
-                            color: isFemale ? Colors.white : Colors.green)),
+              SizedBox(height: 10),
+              _buildDropdownField(
+                  "Weight", ["1kg", "2kg", "3kg", "4kg"], selectedWeight,
+                      (val) {
+                    setState(() => selectedWeight = val);
+                  }),
+              Padding(
+                padding: EdgeInsets.only(top: 50),
+                child: InkWell(onTap: () {
+                  petprofile();
+                },
+                  child: Container(
+                    child: Center(
+                        child: Text(
+                          "Save",
+                          style: GoogleFonts.inter(fontSize: 24),
+                        )),
+                    height: 54,
+                    width: 356,
+                    decoration: BoxDecoration(
+                        color: Color(0xff5CB15A),
+                        borderRadius: BorderRadius.circular(30)),
                   ),
                 ),
-                SizedBox(width: 10.w),
-                Expanded(
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: isFemale ? Colors.white : Colors.green,
-                      side: BorderSide(color: Colors.green),
-                    ),
-                    onPressed: () => setState(() => isFemale = false),
-                    child: Text("Male",
-                        style: TextStyle(
-                            color: isFemale ? Colors.green : Colors.white)),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 10.h),
-            _buildDropdownField(
-                "Weight", ["1kg", "2kg", "3kg", "4kg"], selectedWeight, (val) {
-              setState(() => selectedWeight = val);
-            }),
-            Padding(
-              padding: EdgeInsets.only(top: 50.h),
-              child: Container(
-                child: Center(
-                    child: Text(
-                      "Save",
-                      style: GoogleFonts.inter(fontSize: 24.sp),
-                    )),
-                height: 54.h,
-                width: 356.w,
-                decoration: BoxDecoration(
-                    color: Color(0xff5CB15A),
-                    borderRadius: BorderRadius.circular(30.r)),
-              ),
-            )
-          ],
-        ),
+              )
+            ],
+          ),
+        ]),
       ),
     );
   }
@@ -155,7 +196,7 @@ class _PetProfilepageState extends State<PetProfilepage> {
       decoration: InputDecoration(
         hintText: hint,
         prefixIcon: Icon(icon),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.r)),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
       ),
     );
   }
@@ -165,7 +206,7 @@ class _PetProfilepageState extends State<PetProfilepage> {
     return DropdownButtonFormField<String>(
       decoration: InputDecoration(
         hintText: hint,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.r)),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
       ),
       value: selectedItem,
       items: items.map((item) {

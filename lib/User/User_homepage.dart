@@ -6,6 +6,7 @@ import 'package:pet_clinic/User/User_Addvaccination.dart';
 import 'package:pet_clinic/User/User_Grooming.dart';
 import 'package:pet_clinic/User/User_add_appoinment_details.dart';
 import 'package:pet_clinic/User/User_profile.dart';
+import 'package:pet_clinic/gridview/Food_TApbar.dart';
 
 class UserHomepage extends StatefulWidget {
   const UserHomepage({super.key});
@@ -179,24 +180,30 @@ class _UserHomepageState extends State<UserHomepage> {
             children: [
               Padding(
                 padding: EdgeInsets.only(left: 40.w, top: 30.h),
-                child: Container(
-                  height: 132.h,
-                  width: 160.w,
-                  decoration: BoxDecoration(
-                    // image: DecorationImage(
-                    //     image: AssetImage(
-                    //         "Asset/foodnew-removebg-preview 1.svg")),
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(15),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black
-                            .withOpacity(0.2), // Shadow color with opacity
-                        spreadRadius: 0, // How much the shadow spreads
-                        blurRadius: 4, // Softness of the shadow
-                        offset: Offset(0, 4), // X and Y offset of the shadow
-                      ),
-                    ],
+                child: InkWell(onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return FoodTapbar();
+                  },));
+                },
+                  child: Container(
+                    height: 132.h,
+                    width: 160.w,
+                    decoration: BoxDecoration(
+                      // image: DecorationImage(
+                      //     image: AssetImage(
+                      //         "Asset/foodnew-removebg-preview 1.svg")),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(15),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black
+                              .withOpacity(0.2), // Shadow color with opacity
+                          spreadRadius: 0, // How much the shadow spreads
+                          blurRadius: 4, // Softness of the shadow
+                          offset: Offset(0, 4), // X and Y offset of the shadow
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

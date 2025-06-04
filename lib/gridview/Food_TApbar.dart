@@ -1,44 +1,33 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:pet_clinic/Doctor/Doctor_ViewPetProfile.dart';
-import 'package:pet_clinic/Doctor/Doctor_notification.dart';
-import 'package:pet_clinic/Doctor/View_Appoinment_details.dart';
-import 'package:pet_clinic/Doctor/Doctor_userDetails.dart';
+import 'package:pet_clinic/gridview/Dry_food.dart';
+import 'package:pet_clinic/gridview/User_kittenFood.dart';
+import 'package:pet_clinic/gridview/User_wetfood.dart';
 
-class DoctorTapbar extends StatefulWidget {
-  const DoctorTapbar({super.key});
+class FoodTapbar extends StatefulWidget {
+  const FoodTapbar({super.key});
 
   @override
-  State<DoctorTapbar> createState() => _DoctorTapbarState();
+  State<FoodTapbar> createState() => _FoodTapbarState();
 }
 
-class _DoctorTapbarState extends State<DoctorTapbar> {
+class _FoodTapbarState extends State<FoodTapbar> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 4,
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
             icon: Icon(Icons.arrow_back, color: Colors.black),
             onPressed: () {},
           ),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.pets),
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return DoctorViewpetprofile();
-                }));
-              },
-            ),
-          ],
 
           title: Padding(
             padding: EdgeInsets.only(left: 60.w),
             child:
-            Text("USer details", style: TextStyle(color: Colors.black)),
+            Text("Pet Food", style: TextStyle(color: Colors.black)),
           ),
           bottom: TabBar(
             labelColor: Colors.white,
@@ -51,7 +40,7 @@ class _DoctorTapbarState extends State<DoctorTapbar> {
             tabs: [
               Tab(
                 child: Text(
-                  'User',
+                  'Dry Food',
                   style: TextStyle(
                     // color: Colors.white,
                     fontSize: 16,
@@ -63,7 +52,29 @@ class _DoctorTapbarState extends State<DoctorTapbar> {
               ),
               Tab(
                 child: Text(
-                  'Appoinment',
+                  'Wet Food',
+                  style: TextStyle(
+                    // color: Colors.white,
+                    fontSize: 16,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w500,
+                    height: 0,
+                  ),
+                ),
+              ), Tab(
+                child: Text(
+                  'Kitten Food',
+                  style: TextStyle(
+                    // color: Colors.white,
+                    fontSize: 16,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w500,
+                    height: 0,
+                  ),
+                ),
+              ), Tab(
+                child: Text(
+                  'Wellness Eats',
                   style: TextStyle(
                     // color: Colors.white,
                     fontSize: 16,
@@ -77,8 +88,10 @@ class _DoctorTapbarState extends State<DoctorTapbar> {
           ),
         ),body: TabBarView(
         children: [
-          DoctorUserdetails(), // Call the first class
-          AddVaccination(),
+          DryFood(), // Call the first class
+          UserWetfood(),
+          UserKittenfood(),
+          UserKittenfood(),
 
           // Call the second class
         ],

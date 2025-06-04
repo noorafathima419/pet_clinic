@@ -8,6 +8,8 @@ import 'package:pet_clinic/Admin/Admin_dashboard.dart';
 import 'package:pet_clinic/Admin/Admin_doctor.dart';
 import 'package:pet_clinic/Admin/Admin_login.dart';
 import 'package:pet_clinic/Admin/Admin_user.dart';
+import 'package:pet_clinic/Doctor/Doctor_Vaccination_Details.dart';
+import 'package:pet_clinic/Doctor/Doctor_ViewPetProfile.dart';
 import 'package:pet_clinic/Doctor/Doctor_login.dart';
 import 'package:pet_clinic/Doctor/Doctor_view_grooming.dart';
 import 'package:pet_clinic/Doctor/View_Appoinment_details.dart';
@@ -27,6 +29,7 @@ import 'package:pet_clinic/User/User_notofication.dart';
 import 'package:pet_clinic/User/User_profile.dart';
 import 'package:pet_clinic/User/User_signup.dart';
 import 'package:pet_clinic/User/user_login.dart';
+
 
 import 'firebase_options.dart';
 
@@ -69,7 +72,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
         ),
-      home:  LogoSplash(),
+      home: LogoSplash (),
       ) );
   }
 }
